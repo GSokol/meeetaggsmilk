@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block css %}
+{{ block.super }}
+<LINK rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/owl.carousel.css" />
+<LINK rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/owl.theme.css" />
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/owl.carousel.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/main_page.js"></SCRIPT>
+{% endblock %}
+
+{% block horizontal_menu_item_main %}{{ block.super }} selected-menu-item{% endblock %}
+
+{% block content %}
+  {% for text in main_text %}
+    <P>{{ text }}</P>
+  {% endfor %}
+{% endblock %}

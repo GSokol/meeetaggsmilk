@@ -1,0 +1,16 @@
+{% extends "recipe_category_list.html" %}
+
+{% block content %}
+	{% if recipes %}
+		{% for recipe in recipes %}
+		<A href="{% url "url_recipe" recipe.pk %}">
+				<DIV align="center" class="bordered-block clicable collection-item">
+					<IMG class="small-image" src="{{ MEDIA_URL }}{{ recipe.smallImage }}" /><BR/>
+					{{ recipe.name }}
+				</DIV>
+			</A>
+		{% endfor %}
+	{% else %}
+		<P>Простите, в данной категории, пока, рецептоы нет.</P>
+	{% endif %}
+{% endblock %}

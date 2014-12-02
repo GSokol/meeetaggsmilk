@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block horizontal_menu_item_recipes %}{{ block.super }} selected-menu-item{% endblock %}
+
+{% block content %}
+	{% for recipeC in recipes %}
+		<A href="{% url "url_recipe_category" recipeC.pk %}" >
+			<DIV align="center" class="bordered-block clicable collection-item">
+				<IMG class="small-image" src="{{ MEDIA_URL }}{{ recipeC.image }}" /><BR/>
+				{{ recipeC.name }}
+			</DIV>
+		</A>
+	{% endfor %}
+{% endblock %}

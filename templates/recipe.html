@@ -1,0 +1,41 @@
+{% extends "recipe_category.html" %}
+
+{% block css %}
+{{ block.super }}
+<LINK rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/recipe.css" />
+{% endblock %}
+
+{% block scripts %}
+	{{ block.super }}
+	<SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/dot-widget.js"></SCRIPT>
+	<SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/recipe.js"></SCRIPT>
+{% endblock %}
+
+{% block content %}
+	{% if recipe %}
+		<H2>{{ recipe.name }}</H2>
+		<DIV class="big-image-container collection-item">
+			<IMG class="big-image" src="{{ MEDIA_URL }}{{ recipe.bigImage }}" />
+		</DIV>
+		{% if ingredients %}
+			<H3>Ингредиеты:</H3>
+			<UL id="ingredient-list" class="dot-widget-parent">
+				{% for ingredient in ingredients %}
+					<LI class="ingredient">
+						<SPAN class="ingredient-name dot-widget-left">{{ ingredient.name }}</SPAN>
+						<SPAN class="list-dots dot-widget-center"></SPAN>
+						<SPAN class="ingredient-value dot-widget-right">{{ ingredient.value }}</SPAN>
+					</LI>
+				{% endfor %}
+			</UL>
+		{% endif %}
+		{% if paragraphs %}
+			<H3>Способ приотовления:</H3>
+			{% for paragraph in paragraphs %}
+				<P>{{ paragraph }}</P>
+			{% endfor %}
+		{% endif %}
+	{% else %}
+		<P>Простите! Видимо, что-то пошло не так и такого рецепта нет. <A href="{% url "url_main" %}" class="clicable">На главную</A></P>
+	{% endif %}
+{% endblock %}

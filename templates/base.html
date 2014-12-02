@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<HTML>
+	<HEAD>
+		{% block meta %}
+		{% endblock %}
+		<TITLE>{% block title %}Мясо яйца молоко{% endblock %}</TITLE>
+		{% block css %}
+		<LINK rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Marck+Script|Courgette&subset=latin,cyrillic">
+		<LINK rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/base.css" />
+		{% endblock %}
+		{% block scripts %}
+		<SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/jquery-2.1.1.min.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/cookie.js"></SCRIPT>
+		<SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/extend.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/order.js"></SCRIPT>
+		<SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/base.js"></SCRIPT>
+		{% endblock %}
+	</HEAD>
+	<BODY>
+		<DIV id="container">
+			<DIV id="header">
+				<DIV id="phones">
+					<UL>
+						{% for phone in phones %}
+						<LI>{{ phone }}</LI>
+						{% endfor %}
+					</UL>
+				</DIV>
+				<DIV id="site-name">
+					<H1>Мясо яйца молоко</H1>
+				</DIV>
+        <DIV id="card" class="bordered-block" >
+          Итого: <SPAN>0</SPAN> руб.
+        </DIV>
+				<DIV id="logo">
+					<IMG src="{{MEDIA_URL}}{{logo_img}}" />
+				</DIV>
+				<DIV id="menu" class="bordered-block">
+					<UL class="horezontal-menu">
+						<LI class="{% block horizontal_menu_item_main %}horizontal-menu-item clicable{% endblock %}">
+							<A href="{% url 'url_main' %}">Главная</A>
+						</LI>
+						<LI class="{% block horizontal_menu_item_recipes %}horizontal-menu-item clicable{% endblock %}">
+							<A href="{% url 'url_recipe_categories' %}">Рецепты</A>
+						</LI>
+						<LI class="{% block horizontal_menu_item_resides %}horizontal-menu-item clicable{% endblock %}">
+							<A href="{% url 'url_resides' %}">Остатки</A>
+						</LI>
+						<LI class="horizontal-menu-item clicable{% block horizontal_menu_item_delivery %}{% endblock %}">Доставка</LI>
+						<LI class="horizontal-menu-item horizontal-menu-item-callback clicable">Обратная связь</LI>
+					</UL>
+				</DIV>
+			</DIV>
+			<DIV id="left-menu" class="bordered-block long-block">
+				<UL class="vertical-menu">
+					{% for good_category in good_categories %}
+						<LI class="vertical-menu-item clicable" id="vertical-menu-item-{{good_cadegory.pk}}">
+							{{good_category.name}}
+						</LI>
+					{% endfor %}
+				</UL>
+			</DIV>
+			<DIV id="right-menu" class="bordered-block long-block">
+				{% if weekly_product %}
+				<DIV align="center" class="right-menu-item clicable">
+					<IMG class="small-image" src="{{ MEDIA_URL }}{{ weekly_product.smallImage }}" /><BR/>
+					{{ weekly_product.name }}
+				</DIV>
+				{% endif %}
+				<A href="{% url "url_recipe" random_recipe.pk %}">
+					<DIV align="center" class="right-menu-item clicable">
+						<IMG class="small-image" src="{{ MEDIA_URL }}{{ random_recipe.smallImage }}" /><BR/>
+						{{random_recipe.name}}
+					</DIV>
+				</A>
+			</DIV>
+			<DIV id="content" class="bordered-block long-block">
+				{% block content %}{% endblock %}
+			</DIV>
+			<DIV id="footer">
+
+			</DIV>
+		</DIV>
+	</BODY>
+</HTML>

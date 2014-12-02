@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block horizontal_menu_item_resides %}{{ block.super }} selected-menu-item{% endblock %}
+
+{% block content %}
+	{% if goods %}
+		{% for good in goods %}
+			<A href="{% url "url_reside_good" good.pk %}">
+				<DIV align="center" class="bordered-block clicable collection-item">
+					<IMG class="small-image" src="{{ MEDIA_URL }}{{ good.smallImage }}" /><BR/>
+					{{ good.name }}
+				</DIV>
+			</A>
+		{% endfor %}
+	{% else %}
+		<P>Простите, на данный момент товаров не осталось. <A href="">Закажите товары с новых поставок</A></P>
+	{% endif %}
+{% endblock %}
