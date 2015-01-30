@@ -1,0 +1,54 @@
+{% extends "supply_list.html" %}
+
+{% block scripts %}
+	{{ block.super }}
+	<SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/dot-widget.js"></SCRIPT>
+	<SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/reside_good.js"></SCRIPT>
+  <SCRIPT type="text/javascript">
+    maxResides = {{ availableResides }};
+  </SCRIPT>
+{% endblock %}
+
+{% block content %}
+	{% if good %}
+		<H2>{{ good.name }}</H2>
+    <DIV class="good-id">{{ good.pk }}</DIV>
+		<DIV class="big-image-container collection-item">
+			<IMG class="big-image" src="{{ MEDIA_URL }}{{ good.bigImage }}" />
+		</DIV>
+		{% for description in descriptions %}
+			<P>{{ description }}</P>
+		{% endfor %}
+		<DIV class="dot-widget-parent">
+			<SPAN class="dot-widget-left widget-span">Цена за {{ good.measureName}}:</SPAN>
+			<SPAN class="dot-widget-center widget-span"></SPAN>
+			<SPAN class="dot-widget-right widget-span">
+        <SPAN class="js-price for-reside{% if availableResides > -1 %} active{% endif %}">{{ good.price }}</SPAN>
+        <SPAN class="js-price for-supply{% if availableResides < 0 %} active{% endif %}">{{ good.priceFut }}</SPAN>
+      руб.</SPAN>
+		</DIV>
+		<DIV>
+			<LABEL for="volume">Количество:</LABEL>
+		  <SELECT name="volume" class="volume-select">
+			  {% for volume in value_choices %}
+			  	<OPTION value="{{ volume }}">{{ volume }} {{ good.measureName }}</OPTION>
+			  {% endfor %}
+		  </SELECT>
+      <SPAN class="good-total-price">
+        <SPAN class="good-total-price-value">0</SPAN>
+        руб.
+      </SPAN>
+            <SPAN>
+                      <LABEL for="cut">порезать?</LABEL>
+                              <INPUT type="checkbox" name="cut" class="cut" />
+                                    </SPAN>
+
+      <SPAN class="add-to-card inactive bordered-block">
+        в корзину
+      </SPAN>
+    </DIV>
+
+	{% else %}
+
+	{% endif %}
+{% endblock %}

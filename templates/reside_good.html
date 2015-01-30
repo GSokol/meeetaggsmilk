@@ -1,5 +1,7 @@
 {% extends "reside_list.html" %}
 
+{% load l10n %}
+
 {% block scripts %}
 	{{ block.super }}
 	<SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/dot-widget.js"></SCRIPT>
@@ -9,6 +11,7 @@
 {% block content %}
 	{% if good %}
 		<H2>{{ good.name }}</H2>
+    <DIV class="good-id">{{ good.pk }}</DIV>
 		<DIV class="big-image-container collection-item">
 			<IMG class="big-image" src="{{ MEDIA_URL }}{{ good.bigImage }}" />
 		</DIV>
@@ -23,15 +26,21 @@
 		<DIV>
 			<LABEL for="volume">Количество:</LABEL>
 		  <SELECT name="volume" class="volume-select">
+        {% localize on %}
 			  {% for volume in value_choices %}
-			  	<OPTION value="{{ volume }}">{{ volume }} {{ good.measureName }}</OPTION>
+			  	<OPTION value="{{ volume|unlocalize }}">{{ volume }} {{ good.measureName }}</OPTION>
 			  {% endfor %}
+        {% endlocalize %}
 		  </SELECT>
       <SPAN class="good-total-price">
         <SPAN class="good-total-price-value">0</SPAN>
         руб.
       </SPAN>
-      <SPAN class="add-to-card inactive bordered-block">
+      <SPAN>
+        <LABEL for="cut">порезать?</LABEL>
+        <INPUT type="checkbox" name="cut" class="cut" />
+      </SPAN>
+      <SPAN class="add-to-card inactive bordered-block clickable">
         в корзину
       </SPAN>
     </DIV>

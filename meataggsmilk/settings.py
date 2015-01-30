@@ -63,6 +63,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 TEMPLATE_DIRS = (
         os.path.join(BASE_DIR, 'templates'),
+        os.path.join(BASE_DIR, 'tools', 'templates'),
         )
 
 ROOT_URLCONF = 'meataggsmilk.urls'
@@ -93,12 +94,19 @@ LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 
+DECIMAL_SEPARATOR = '.'
+
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
 
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'mail.nic.ru'
+EMAIL_HOST_USER = u'order@мясояйцамолоко.рф'
+EMAIL_HOST_PASSWORD = 'Aleksandra68'
+EMAIL_PORT = 587
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/

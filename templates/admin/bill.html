@@ -1,0 +1,107 @@
+{% load l10n %}
+{% localize on %}
+<!DOCTYPE html>
+<HTML>
+  <HEAD>
+    <STYLE>
+TABLE {
+  margin: auto;
+  width: 80%;
+}
+
+IMG {
+  height: 135px;
+  width: 160px;
+  margin: auto;
+}
+
+#content {
+  border: 3px solid black;
+}
+
+#content TD, #content TH {
+  border: 1px solid black;
+  text-align: center;
+}
+
+.column-right {
+  text-align: right;
+}
+
+.sum-text, .sum-value {
+  font-weight: bold;
+}
+
+.sum-text {
+  border-width: 1px 0px 1px 1px;
+  text-align: left;
+  padding: 3px;
+}
+
+.sum-value {
+  text-align: right !important;
+}
+    </STYLE>
+    <SCRIPT type="text/javascript">
+window.onload=function () { window.print(); window.close(); };
+    </SCRIPT>
+  </HEAD>
+  <BODY>
+    <DIV align="center">
+      <IMG src="{{ MEDIA_URL }}{{ logo }}" />
+      <H1>Мясо-яйца-Молоко</H1>
+    </DIV>
+    <TABLE id="header">
+      <TBODY>
+        <TR>
+          <TD class="column-left">Дата</TD>
+          <TD class="column-right">{{ date }}</TD>
+        </TR>
+        <TR>
+          <TD class="column-left">Дата заказа</TD>
+          <TD class="column-right">{{ orderDate }}</TD>
+        </TR>
+        <!--<TR>
+          <TD class="column-left">Дата поставки</TD>
+          <TD class="column-right">{{ deliveryDate }}</TD>
+          </TR>-->
+      </TBODY>
+    </TABLE>
+    <TABLE id="content" cellspacing="0">
+      <THEAD>
+        <TR>
+          <TH>№</TH>
+          <TH>Название</TH>
+          <TH>Цена</TH>
+          <TH>Количество</TH>
+          <TH>Сумма</TH>
+        </TR>
+       </THEAD>
+       <TBODY>
+        {% for item in items %}
+          <TR>{% for a in item %}<TD>{{ a|unlocalize }}</TD>{% endfor %}</TR>
+        {% endfor %}
+        {% if deliveryPrice %}
+          <TR><TD colspan="4">Доставка</TD><TD>{{ deliveryPrice }}</TD></TR>
+        {% endif %}
+        <TR><TD class="sum-text" colspan="4">Итого:</TD><TD class="sum-value">{{ sumPrice|unlocalize }}</TD></TR>
+      </TBODY>
+    </TABLE>
+    <BR />
+    <BR />
+    <TABLE>
+      <TBODY>
+        <TR>
+          <TD>Менеджер</TD>
+          <TD>_____________________________</TD>
+          <TD>подпись</TD>
+          <TD>_____________________________</TD>
+        </TR>
+        <TR>
+          <TD></TD><TD></TD><TD></TD><TD>М.П.</TD>
+        </TR>
+      </TBODY>
+    </TABLE>
+  </BODY>
+</HTML>
+{% endlocalize %}

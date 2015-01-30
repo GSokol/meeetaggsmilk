@@ -1,5 +1,6 @@
 (function() {
 	var reside_good = function() {
+    var goodId = parseInt($('.good-id').text());
 		window['dot-widget']({
 			lazy: false,
 			listItems: $('DIV.dot-widget-parent'),
@@ -14,11 +15,18 @@
 						map(function() { return $(this).width(); }).get().reduce(function(a, b) { return a + b; })
 		);
 		$("SELECT").change(function() {
-			var selectedVolume = parseFloat($('SELECT OPTION:selected').val());
+			var selectedVolume = parseFloat($('SELECT OPTION:selected').val().replace(',','.'));
+      if (maxResides != undefined) {
+        $('.js-price').removeClass('active');
+        if (selectedVolume <= maxResides)
+          $('.js-price.for-reside').addClass('active');
+        else
+          $('.js-price.for-supply').addClass('active');
+      }
 			$('.good-total-price-value').text(
 					Math.round(
-						selectedVolume * parseFloat($(".js-price").text()) * 100
-					) / 100
+						selectedVolume * parseFloat($(".js-price.active").text()) * 100
+					) / 100.
 			);
 			if (selectedVolume > 0) {
 				$('.add-to-card').removeClass('inactive');
@@ -30,12 +38,13 @@
     $('.add-to-card').unbind('click');
 		$('.add-to-card').click(function(event) {
 		  if ($(this).hasClass('inactive')) return;
-      window.order.addOrderItem(new ResideOrderItem(
-            /([0-9]+)\/?$/.exec(document.location.href)[1],
+      window.order.addItem(new OrderItem(
+            goodId,
             $('H2').first().text(),
             parseFloat($('.js-price').text()),
-            parseFloat($('SELECT OPTION:selected').val()),
-            parseFloat($('.good-total-price-value').text())
+            parseFloat($('SELECT OPTION:selected').val().replace(',','.')),
+            parseFloat($('.good-total-price-value').text()),
+            $('SPAN INPUT.cut').prop('checked')
       ));
     });
 

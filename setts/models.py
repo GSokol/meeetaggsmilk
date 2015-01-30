@@ -23,11 +23,13 @@ class TextModel(models.Model):
 class ImageModel(models.Model):
   PROMO_BANNER = 'promo_panner'
   LOGO = 'logo'
+  LOGO_BW = 'logo_bw'
   MAP = 'map'
 
   CHOICES = (
     (PROMO_BANNER, u'кадр промо баннера'),
     (LOGO, u'логотип'),
+    (LOGO_BW, u'черно-белый логотип'),
     (MAP, u'карта'),
   )
 
@@ -58,3 +60,26 @@ class PhoneModel(models.Model):
   class Meta:
     verbose_name = u'телефон'
     verbose_name_plural = u'телефоны'
+
+class IntModel(models.Model):
+  MAX_DELIVERY_INTERVAL = 'max_delivery_interval'
+  DELIVERY_PRICE = 'delivery_price'
+  FREE_DELIVERY_MIN_PRICE = 'free_delivery_min_price'
+  HOUR_DELIVERYCLOSE ='hour_delivery_close'
+
+  TYPES = (
+      (MAX_DELIVERY_INTERVAL, u'максимальный интервал между поставками'),
+      (DELIVERY_PRICE, u'Цена платной доставки'),
+      (FREE_DELIVERY_MIN_PRICE, u'Минимальная цена бесплатной доставки'),
+      (HOUR_DELIVERYCLOSE, u'Час закрытия доставки в тот же день'),
+  )
+
+  intType = models.CharField(u'тип переменной', max_length=32, choices=TYPES)
+  value = models.IntegerField(u'значение')
+
+  def __unicode__(self):
+    return '%s: %d' % (self.get_intType_display(), self.value)
+
+  class Meta:
+    verbose_name = u'переменная'
+    verbose_name_plural = u'переменные'

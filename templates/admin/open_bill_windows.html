@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<HTML>
+  <HEAD>
+    <SCRIPT type="text/javascript">
+(function() {
+  window.onload = function(event) {
+    {% for order in orders %}
+      window.open("{% url "url_print_bill" order %}");
+    {% endfor %}
+    /*document.location.href = "{{ referer }}";*/
+  };
+})();
+    </SCRIPT>
+  </HEAD>
+  <BODY>
+    <A href="{{ referer }}">Назад</A>
+  </BODY>
+</HTML>

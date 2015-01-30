@@ -10,6 +10,8 @@ urlpatterns = patterns('',
   # url(r'^blog/', include('blog.urls')),
 
   url(r'^$', views.main, name='url_main'),
+  url(r'^delivery/$', views.delivery, name="url_delivery"),
+  url(r'^call_order/$', views.call_order, name='url_call_order'),
 
   # Recipes
   url(r'^recipes/$', views.recipes, name="url_recipe_categories"),
@@ -17,8 +19,16 @@ urlpatterns = patterns('',
   url(r'^recipe/(?P<id>[0-9]+)/$', views.recipe, name="url_recipe"),
 
   # Recide goods
-  url(r'^recides/$', views.resides, name='url_resides'),
-  url(r'resides/(?P<id>[0-9]+)/$', views.reside_good, name="url_reside_good"),
+  url(r'^resides/$', views.resides, name='url_resides'),
+  url(r'^resides/(?P<id>[0-9]+)/$', views.reside_good, name="url_reside_good"),
+
+  # Supplies
+  url(r'^supply/(?P<id>[0-9]+)/$', views.supply_good_category, name="url_supplies"),
+  url(r'^supply/good/(?P<id>[0-9]+)/(?P<categoryId>[0-9]+)/$', views.supply_good, name="url_supply_good"),
+
+  # Orders
+  url(r'^order/create/$', views.supply_order, name='url_order'),
+  url(r'^order/bill/(?P<id>[0-9]+)/$', views.print_bill, name="url_print_bill"),
 
   # Admin
   url(r'^admin/', include(admin.site.urls)),

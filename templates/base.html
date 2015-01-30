@@ -10,6 +10,7 @@
 		{% endblock %}
 		{% block scripts %}
 		<SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/jquery-2.1.1.min.js"></SCRIPT>
+    <SCRIPT src="{{ STATIC_URL }}js/jquery.maskedinput.js" type="text/javascript"></script>
     <SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/cookie.js"></SCRIPT>
 		<SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/extend.js"></SCRIPT>
     <SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/order.js"></SCRIPT>
@@ -17,6 +18,13 @@
 		{% endblock %}
 	</HEAD>
 	<BODY>
+    <DIV id="call-order-form" class=" bordered-block">
+      <LABEL for="call-order-phone-input">Телефон</LABEL>
+      <INPUT type="text" id="call-order-phone-input" class="phone" /><BR /><BR/>
+      <DIV align="right"><SPAN id="call-order-submit" class="bordered-block clicable">Заказать звонок</SPAN></DIV>
+      <BR/>
+    </DIV>
+      
 		<DIV id="container">
 			<DIV id="header">
 				<DIV id="phones">
@@ -29,24 +37,30 @@
 				<DIV id="site-name">
 					<H1>Мясо яйца молоко</H1>
 				</DIV>
-        <DIV id="card" class="bordered-block" >
-          Итого: <SPAN>0</SPAN> руб.
-        </DIV>
+        <A href="{% url "url_order" %}">
+          <DIV id="card" class="bordered-block" >
+            Итого: <SPAN>0</SPAN> руб.
+          </DIV>
+        </A>
 				<DIV id="logo">
 					<IMG src="{{MEDIA_URL}}{{logo_img}}" />
 				</DIV>
 				<DIV id="menu" class="bordered-block">
 					<UL class="horezontal-menu">
-						<LI class="{% block horizontal_menu_item_main %}horizontal-menu-item clicable{% endblock %}">
-							<A href="{% url 'url_main' %}">Главная</A>
+						<LI class="{% block horizontal_menu_item_main %}horizontal-menu-item clicable{% endblock %}"
+                onclick="(function() { document.location.href = '{% url 'url_main' %}'; return false; })()">
+							Главная
 						</LI>
-						<LI class="{% block horizontal_menu_item_recipes %}horizontal-menu-item clicable{% endblock %}">
-							<A href="{% url 'url_recipe_categories' %}">Рецепты</A>
+						<LI class="{% block horizontal_menu_item_recipes %}horizontal-menu-item clicable{% endblock %}"
+                onclick="(function() { document.location.href = '{% url 'url_recipe_categories' %}'; return false; })()">
+							Рецепты
 						</LI>
-						<LI class="{% block horizontal_menu_item_resides %}horizontal-menu-item clicable{% endblock %}">
-							<A href="{% url 'url_resides' %}">Остатки</A>
+						<LI class="{% block horizontal_menu_item_resides %}horizontal-menu-item clicable{% endblock %}"
+                onclick="(function() { document.location.href = '{% url 'url_resides' %}'; return false; })()">
+							Горячее предложение
 						</LI>
-						<LI class="horizontal-menu-item clicable{% block horizontal_menu_item_delivery %}{% endblock %}">Доставка</LI>
+						<LI class="{% block horizontal_menu_item_delivery %}horizontal-menu-item clicable{% endblock %}"
+                onclick="(function() {document.location.href = '{% url 'url_delivery' %}'; return false; })()">Доставка</LI>
 						<LI class="horizontal-menu-item horizontal-menu-item-callback clicable">Обратная связь</LI>
 					</UL>
 				</DIV>
@@ -54,7 +68,8 @@
 			<DIV id="left-menu" class="bordered-block long-block">
 				<UL class="vertical-menu">
 					{% for good_category in good_categories %}
-						<LI class="vertical-menu-item clicable" id="vertical-menu-item-{{good_cadegory.pk}}">
+						<LI class="vertical-menu-item clicable" id="vertical-menu-item-{{good_category.pk}}"
+                onclick="(function() { document.location.href='{% url 'url_supplies' good_category.pk %}'; return false; })()">
 							{{good_category.name}}
 						</LI>
 					{% endfor %}
@@ -62,10 +77,12 @@
 			</DIV>
 			<DIV id="right-menu" class="bordered-block long-block">
 				{% if weekly_product %}
-				<DIV align="center" class="right-menu-item clicable">
-					<IMG class="small-image" src="{{ MEDIA_URL }}{{ weekly_product.smallImage }}" /><BR/>
-					{{ weekly_product.name }}
-				</DIV>
+        <A href="{% url "url_supply_good" weekly_product.pk weekly_product.category.pk %}">
+          <DIV align="center" class="right-menu-item clicable">
+            <IMG class="small-image" src="{{ MEDIA_URL }}{{ weekly_product.smallImage }}" /><BR/>
+            {{ weekly_product.name }}
+          </DIV>
+        </A>
 				{% endif %}
 				<A href="{% url "url_recipe" random_recipe.pk %}">
 					<DIV align="center" class="right-menu-item clicable">
@@ -73,6 +90,12 @@
 						{{random_recipe.name}}
 					</DIV>
 				</A>
+        <A href="{% url "url_delivery" %}">
+          <DIV align="center" class="right-menu-item clicable">
+            <IMG class="small-image" src="{{ MEDIA_URL }}{{ map }}" /><BR/>
+            Карта
+          </DIV>
+        </A>
 			</DIV>
 			<DIV id="content" class="bordered-block long-block">
 				{% block content %}{% endblock %}

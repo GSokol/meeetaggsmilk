@@ -12,3 +12,7 @@ class ImageModelAdmin(admin.ModelAdmin):
 @admin.register(PhoneModel)
 class PhoneModelAdmin(admin.ModelAdmin):
   pass
+
+@admin.register(IntModel)
+class IntModelAdmin(admin.ModelAdmin):
+  pass

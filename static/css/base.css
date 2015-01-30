@@ -116,6 +116,16 @@ P {
 	width: 400px;
 }
 
+#call-order-form {
+  display: none;
+  width: 300px;
+  heigth: 200px;
+  min-height: 80px;
+  position: absolute;
+  background-color: #fff7b4;
+  padding: 3px;
+}
+
 .horizontal-menu {
 	width: 100%;
 	padding-top: 3px;
@@ -130,7 +140,7 @@ P {
 	margin: 0;
 }
 
-.horizontal-menu-item.selected-menu-item, .horizontal-menu-item.selected-menu-item A {
+.horizontal-menu-item.selected-menu-item, .horizontal-menu-item.selected-menu-item A, .vertical-menu-item.selected-menu-item, .supply-group-header {
 	background-color: #59281A;
 	color: #BCB8AC;
 }
@@ -181,7 +191,7 @@ P {
 	height: 306px;
 }
 
-.small-image, .big-image, .bordered-block {
+.small-image, .big-image, .bordered-block, .card-table TH, .supply-group-cell, .supply-group-header {
 	border: solid 5px #59281A;
 }
 
@@ -213,4 +223,31 @@ P {
   border-color: #BCB8AC;
   color: #BCB8AC;
   background-image: url(/static/img/selected-bg.png);
+}
+
+.js-price {
+  display: none;
+}
+
+.js-price.active {
+  display: inline !important;
+}
+
+.good-id {
+  display: none;
+}
+
+.card-table {
+  width: 100%;
+  border-spacing: 0px;
+  border-collapse: collapse;
+}
+
+.supply-group-cell {
+  text-align: center;
+}
+
+.item-name-cell, .supply-group-header {
+  text-align: left;
+  padding-left: 3px;
 }

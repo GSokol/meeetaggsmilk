@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block horizontal_menu_item_delivery %}{{ block.super }} selected-menu-item{% endblock %}
+{% block content %}
+  {% for text in texts %}
+    <P>{{ text }}</P>
+  {% endfor %}
+  <DIV align="center">
+    <IMG class="big-image" src="{{ MEDIA_URL }}{{ image }}" />
+  </DIV>
+{% endblock %}

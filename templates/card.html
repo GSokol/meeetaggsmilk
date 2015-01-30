@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <TABLE class="card-table">
+    <THEAD>
+      <TR>
+        <TH>Товар</TH>
+        <TH>Цена</TH>
+        <TH>Количество</TH>
+        <TH>Итого</TH>
+      </TR>
+    </THEAD>
+    <TBODY>
+      {% for supplyGroup in supplyGroups %}
+        <TR><TD class="supply-group-header" colspan="4">{{ supplyGroup.maxDate }}</TD></TR>
+        {% for good in supplyGroup.goods %}
+          <TR>
+            <TD class="supply-group-cell item-name-cell">{{ good.name }}</TD>
+            <TD class="supply-group-cell item-price-cell">{{ good.price }}</TD>
+            <TD class="supply-group-cell item-volume-cell">{{ good.value }}</TD>
+            <TD class="supply-group-cell item-total-cell">{{ good.total }}</TD>
+          </TR>
+        {% endfor %}
+        {% if supplyGroup.delivery %}
+          <TR>
+            <TD class="supply-group-cell item-name-cell" colspan="3">Доставка</TD>
+            <TD class="supply-group-cell item-price-cell">{{ deliveryPrice }}</TD>
+          </TR>
+        {% endif %}
+        <TR class="total-row">
+          <TD class="supply-group-cell item-name-cell" colspan="3">Итого</TD>
+          <TD class="supply-group-cell item-price-cell">{{ supplyGroup.totalPrice }}</TD>
+        </TR>
+      {% endfor %}
+    </TBODY>
+  </TABLE>
+  <BR/><BR/>
+  <FORM method="POST">
+    <TABLE>
+      <TBODY>
+        <TR>
+          <TD><LABEL for="order-data-phone">Телефон</LABEL></TD>
+          <TD>
+            <INPUT id="order-data-phone" class="phone" type="text" name="phone"/>
+          </TD>
+        </TR>
+        <TR>
+          <TD><LABEL for="order-data-email">Адрес электронной почты</LABEL></TD>
+          <TD><INPUT id="order-data-email" type="text" name="email" /></TD>
+        </TR>
+        <TR>
+          <TD></TD>
+          <TD>
+            <INPUT type="submit" value="Заказать" />
+          </TD>
+        </TR>
+      </TBODY>
+    </TABLE>
+  </FORM>
+{% endblock %}
