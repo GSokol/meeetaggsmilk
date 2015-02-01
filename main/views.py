@@ -184,32 +184,38 @@ def print_bill(request, id):
 # Orders
 @csrf_exempt
 def supply_order(request):
-  order = urllib2.unquote(request.COOKIES['card'])
-  deliveryInterval = IntModel.objects.filter(intType=IntModel.MAX_DELIVERY_INTERVAL)[0].value
+  order = urllib2.unquote(request.POST.get('order', ''))
+  phone = request.POST.get('phone', None)
+  email = request.POST.get('email', None)
   deliveryCloseHour = IntModel.objects.filter(intType=IntModel.HOUR_DELIVERYCLOSE)[0].value
   freeDeliveryMinPrice = IntModel.objects.filter(intType=IntModel.FREE_DELIVERY_MIN_PRICE)[0].value
   deliveryPrice = IntModel.objects.filter(intType=IntModel.DELIVERY_PRICE)[0].value
+  deliveryInterval = IntModel.objects.filter(intType=IntModel.MAX_DELIVERY_INTERVAL)[0].value
 
   if order == '':
-      return HttpResponseRedirect(reverse('url_main'))
+    return HttpResponseRedirect(reverse('url_main'))
   order = json.loads(order)
   supplyGroups = []
   supplies = Supply.objects.all().order_by('supplyDate')
-  
-  for supply in supplies:
-    supplyDate = supply.supplyDate
-    if supplyDate < date.today():
-      if datetime.now().hour<deliveryCloseHour:
-        supplyDate = date.today()
-      else:
-        supplyDate = date.today() + timedelta(1)
-    availableGoods = supply.listAvailableGoods()
-    for orderItem in order:
+  for orderItem in order: 
+    found = False
+    for supply in supplies:
+      supplyDate = supply.supplyDate
+      if supplyDate < date.today():
+        if datetime.now().hour<deliveryCloseHour:
+          supplyDate = date.today()
+        else:
+          supplyDate = date.today() + timedelta(1)
+      availableGoods = supply.listAvailableGoods()
       for availableGood in availableGoods:
-        if availableGood['good'].pk == int(orderItem['id']) and availableGood['value'] >= float(orderItem['value']):
+        if availableGood['good'].pk == int(orderItem['id']) and float(availableGood['value']) >= float(orderItem['value']):
+          found = True
+          orderItem['name'] = availableGood['good'].name
           createNewGroup = True
           orderItem['supply'] = supply
           orderItem['modelGood'] = availableGood['good']
+          orderItem['supplyItem'] = availableGood['supplyItem']
+          orderItem['isPartnerGood'] = availableGood['isPartnerGood']
           for supplyGroup in supplyGroups:
             if (supplyDate - supplyGroup['minDate']).days < deliveryInterval \
                 and (supplyGroup['maxDate'] - supplyDate).days < deliveryInterval:
@@ -230,38 +236,48 @@ def supply_order(request):
               'delivery': False
             })
           break
+      if found:
+        break
 
-    if request.method == 'GET':
-      for supplyGroup in supplyGroups:
-        if supplyGroup['totalPrice'] < freeDeliveryMinPrice:
-          supplyGroup['totalPrice'] += deliveryPrice
-          supplyGroup['delivery'] = True
+  if phone is None or email is None:
+    for supplyGroup in supplyGroups:
+      if supplyGroup['totalPrice'] < freeDeliveryMinPrice:
+        supplyGroup['totalPrice'] += deliveryPrice
+        supplyGroup['delivery'] = True
 
-      return render_to_response('card.html', { 'supplyGroups': supplyGroups, 'deliveryPrice': deliveryPrice }, RequestContext(request))
-    else:
-      phone = request.POST['phone']
-      email = request.POST['email']
-      
-      for supplyGroup in supplyGroups:
-        order = Order(phone=phone, email=email, deliveryDate=supplyGroup['maxDate'])
-        order.save()
+    return render_to_response('card.html', { 'supplyGroups': supplyGroups, 'deliveryPrice': deliveryPrice }, RequestContext(request))
+  else:
+    print supplyGroups
+    for supplyGroup in supplyGroups:
+      print '!'
+      order = Order(phone=phone, email=email, deliveryDate=supplyGroup['maxDate'])
+      order.save()
 
-        for good in supplyGroup['goods']:
-          SupplyOrderItem(
-              good=good['modelGood'],
-              order=order,
-              supply=good['supply'],
-              value=good['value'],
-              cut=False
-          ).save()
-          message = u'''Здравствуйте увожаемый покупатель!
-          Ваш заказ №%d принят и ожидает обработки! Бсли не случится ничего экстроординарного,
-          мы доставим его Вам %s.
-          
-          Огромное спасибо!
-          Искренне ваши, мясо-яйца-молоко!''' % (order.pk, order.deliveryDate)
-          send_mail(u'Заказ #%d' % order.pk, message, u'order@xn--80aredccldbby6d7fc.xn--p1ai', (order.email,))
-    return HttpResponseRedirect(reverse("url_main"))
+      for good in supplyGroup['goods']:
+        if good['isPartnerGood']:
+          resides = good['supplyItem'].getResides(good['modelGood'])
+          if resides < good['value']:
+            difference = good['value'] - resides
+            good['supplyItem'].value += difference
+            good['supplyItem'].save()
+        SupplyOrderItem(
+            good=good['modelGood'],
+            order=order,
+            supply=good['supply'],
+            value=good['value'],
+            cut=False
+        ).save()
+#      message = u'''Здравствуйте увожаемый покупатель!
+#      Ваш заказ №%d принят и ожидает обработки! Бсли не случится ничего экстроординарного,
+#      мы доставим его Вам %s.
+        
+#      Огромное спасибо!
+#      Искренне ваши, мясо-яйца-молоко!''' % (order.pk, order.deliveryDate)
+#      send_mail(u'Заказ #%d' % order.pk, message, u'order@xn--80aredccldbby6d7fc.xn--p1ai', (order.email,))
+    resp = HttpResponseRedirect(reverse("url_main"))
+    resp.set_cookie('card', '[]', 3600)
+    resp.set_cookie('lastCard', request.COOKIES['card'], 31536000)
+    return resp
   
 
 # Call order

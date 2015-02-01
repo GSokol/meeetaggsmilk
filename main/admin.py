@@ -92,7 +92,7 @@ class SupplyAdmin(CustomChangeActionsModelAdmin):
     return False
 
 @admin.register(Order)
-class SupplyOrderAdmin(CustomChangeActionsModelAdmin):
+class OrderAdmin(CustomChangeActionsModelAdmin):
   readonly_fields = ('timestamp', 'totalPrice')
   list_display = ('phone', 'status', 'totalPrice')
   inlines = [SupplyOrderItemAdmin]

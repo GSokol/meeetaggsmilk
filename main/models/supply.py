@@ -184,7 +184,10 @@ class Supply(models.Model):
       [{ \
         'good': partnerGoodToGood.good, \
         'value': (supplyItem.partnerGood.maxOrder if supplyItem.isPartnerGood() and self.status == self.NEW \
-          else (supplyItem.value * partnerGoodToGood.value)) - soldGoods.get(partnerGoodToGood.good.pk, 0) \
+          else (supplyItem.value * partnerGoodToGood.value)) - soldGoods.get(partnerGoodToGood.good.pk, 0), \
+        'isPartnerGood' : supplyItem.isPartnerGood(),
+        'supplyItem' : supplyItem,
+
       } for supplyItem in self.supplyitem_set.all() for partnerGoodToGood in supplyItem.partnerGood.partnergoodtogood_set.all()]
     return allAvailableGoods
 
@@ -280,6 +283,12 @@ class SupplyItem(models.Model):
 
   def isPartnerGood(self):
     return (sum(map(lambda x: x.value + 1, self.partnerGood.partnergoodtogood_set.all())) == 2)
+
+  def getResides(self, good=None):
+    if good is None:
+      return [{'good': partnerGoodToGood.good, 'value': self.value * partnerGoodToGood.value - sum([orderItem.value for orderItem in self.supply.supplyorderitem_set.filter(good=partnerGoodToGood.good)])} for partnerGoodToGood in self.partnerGood.partnergoodtogood_set.all()]
+    else:
+      return self.value * self.partnerGood.partnergoodtogood_set.filter(good=good)[0].value - sum([orderItem.value for orderItem in self.supply.supplyorderitem_set.filter(good_id=good.pk)])
 
   class Meta:
     verbose_name=u'пункт поставки'

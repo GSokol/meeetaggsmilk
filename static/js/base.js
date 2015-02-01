@@ -61,15 +61,15 @@
       var cardStr = getCookie('card');
       if (cardStr != '') {
 	      var card = JSON.parse(decodeURIComponent(cardStr));
-	      for (var i = 0; i < card.length; i++)
-          window.order.addItem(new OrderItem(
-            card[i].id,
-            card[i].name,
-            card[i].price,
-            card[i].value,
-            card[i].total,
-            card[i].cut
-          ));
+        if (card.length > 0)
+	        for (var i = 0; i < card.length; i++)
+            window.order.addItem(new OrderItem(
+              card[i].id,
+              card[i].price,
+              card[i].value,
+              card[i].total,
+              card[i].cut
+            ));
       }
     }
   };

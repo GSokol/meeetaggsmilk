@@ -57,7 +57,6 @@ function OrderData() {
       var obj = data[i];
       ret.push({
         id: obj.getId(),
-        name: obj.getName(),
         price: obj.getPrice(),
         value: obj.getValue(),
         total: obj.getTotal(),
@@ -91,20 +90,18 @@ function OrderException() {};
 function OrderConsistencyException() {};
 extend(OrderConsistencyException, OrderException);
 
-function OrderItem(id, name, price, value, total, cut) {
+function OrderItem(id, price, value, total, cut) {
   var _total = price * value;
   if (_total > total || total < total)
     throw new OrderConsistencyException();
 
   var _id = id;
-  var _name = name;
   var _price = price;
   var _value = value;
   var _cut = cut;
 
 
   this.getId = function() { return _id; };
-  this.getName = function() { return _name; };
   this.getPrice = function() { return _price; };
   this.getValue = function() { return _value; };
   this.getTotal = function() { return _total; };

@@ -40,7 +40,6 @@
 		  if ($(this).hasClass('inactive')) return;
       window.order.addItem(new OrderItem(
             goodId,
-            $('H2').first().text(),
             parseFloat($('.js-price').text()),
             parseFloat($('SELECT OPTION:selected').val().replace(',','.')),
             parseFloat($('.good-total-price-value').text()),
