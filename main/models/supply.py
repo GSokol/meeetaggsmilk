@@ -266,8 +266,8 @@ class SupplyItemManager(models.Manager):
     for supplyItem in supplyItems:
       for partnerGoodToGood in supplyItem.partnerGood.partnergoodtogood_set.all():
         orderedGoodSum = \
-          sum([x.value for x in SupplyOrderItem.objects.filter(order_supply_pk = supplyItem.supply.pk)\
-              .filter(good_pk=partnerGoodToGood.good.pk)])
+          sum([x.value for x in SupplyOrderItem.objects.filter(supply_id = supplyItem.supply.pk)\
+              .filter(good_id=partnerGoodToGood.good.pk)])
         goods.append((partnerGoodToGood.good, partnerGoodToGood.value * supplyItem.value - orderedGoodSum, supplyItem.supply))
     return goods
 

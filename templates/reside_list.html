@@ -5,10 +5,10 @@
 {% block content %}
 	{% if goods %}
 		{% for good in goods %}
-			<A href="{% url "url_reside_good" good.pk %}">
+			<A href="{% url "url_reside_good" good.good.pk %}">
 				<DIV align="center" class="bordered-block clicable collection-item">
-					<IMG class="small-image" src="{{ MEDIA_URL }}{{ good.smallImage }}" /><BR/>
-					{{ good.name }}
+					<IMG class="small-image" src="{{ MEDIA_URL }}{{ good.good.smallImage }}" /><BR/>
+					{{ good.good.name }}
 				</DIV>
 			</A>
 		{% endfor %}

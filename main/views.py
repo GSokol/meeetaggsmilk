@@ -63,7 +63,7 @@ def recipe(request, id):
 
 # Resides
 def resides(request):
-  goods = SupplyItem.objects.getHotGoods()
+  goods = map(lambda x: {'good': x[0], 'value':x[1]}, SupplyItem.objects.getHotGoods())
   return render_to_response("reside_list.html",
       {
         'goods': goods
