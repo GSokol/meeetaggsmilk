@@ -6,7 +6,10 @@ from django import shortcuts
 
 def render_to_response(template, var_dict, context):
   if not var_dict.has_key('weekly_product'):
-    var_dict['weekly_product'] = Good.objects.get(weekly=True)
+    try:
+      var_dict['weekly_product'] = Good.objects.get(weekly=True)
+    except Good.DoesNotExist:
+      pass
   if not var_dict.has_key('random_recipe'):
     var_dict['random_recipe'] = Recipe.objects.getRandom()
   if not var_dict.has_key('map'):
