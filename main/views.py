@@ -122,6 +122,7 @@ def supply_good(request, id, categoryId):
   try:
     good = Good.objects.get(pk=id)
     supplies = Supply.objects.getByGoodPk(int(id))
+    descriptions = good.description.split('\n')
     available = 0
     availableResides = -1
 
@@ -139,6 +140,7 @@ def supply_good(request, id, categoryId):
       counter += good.step
     return render_to_response('supply_good.html', {
       'good'             : good,
+      'descriptions'     : descriptions,
       'availableResides' : availableResides,
       'value_choices'    : value_choices
     }, RequestContext(request))
