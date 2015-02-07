@@ -42,7 +42,10 @@
     $("#content").css({'margin-right': marginRight + 'px', 'margin-left': marginLeft + 'px'});
     $(".long-block").height($("#content").height());
 
-    $('#card').width(parseFloat(/[0-9]+\.?[0-9]*/.exec($('#logo').css('margin-left'))) - 40);
+    var cardWidth = parseFloat(/[0-9]+\.?[0-9]*/.exec($('#logo').css('margin-left'))) - 40;
+    if (cardWidth < 150)
+      cardWidth = 150;
+    $('#card').width(cardWidth);
 
     if (window.order == undefined) {
       window.order = new OrderData();

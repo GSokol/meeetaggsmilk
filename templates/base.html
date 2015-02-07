@@ -12,6 +12,7 @@
 		<SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/jquery-2.1.1.min.js"></SCRIPT>
     <SCRIPT src="{{ STATIC_URL }}js/jquery.maskedinput.js" type="text/javascript"></script>
     <SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/cookie.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/form_redirect.js"></SCRIPT>
 		<SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/extend.js"></SCRIPT>
     <SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/order.js"></SCRIPT>
 		<SCRIPT type="text/javascript" src="{{ STATIC_URL }}js/base.js"></SCRIPT>
@@ -37,7 +38,7 @@
 				<DIV id="site-name">
 					<H1>Мясо яйца молоко</H1>
 				</DIV>
-        <A href="{% url "url_order" %}">
+        <A href="javascript:(function() { formRedirect('{% url "url_order" %}', 'POST', {order: window.order.toObject()}); })();">
           <DIV id="card" class="bordered-block" >
             Итого: <SPAN>0</SPAN> руб.
           </DIV>

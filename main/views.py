@@ -187,6 +187,8 @@ def supply_order(request):
   order = urllib2.unquote(request.POST.get('order', ''))
   phone = request.POST.get('phone', None)
   email = request.POST.get('email', None)
+  name = request.POST.get('name', None)
+  address = request.POST.get('address', None)
   deliveryCloseHour = IntModel.objects.filter(intType=IntModel.HOUR_DELIVERYCLOSE)[0].value
   freeDeliveryMinPrice = IntModel.objects.filter(intType=IntModel.FREE_DELIVERY_MIN_PRICE)[0].value
   deliveryPrice = IntModel.objects.filter(intType=IntModel.DELIVERY_PRICE)[0].value
@@ -250,7 +252,7 @@ def supply_order(request):
     print supplyGroups
     for supplyGroup in supplyGroups:
       print '!'
-      order = Order(phone=phone, email=email, deliveryDate=supplyGroup['maxDate'])
+      order = Order(phone=phone, email=email, name=name, address=address, deliveryDate=supplyGroup['maxDate'])
       order.save()
 
       for good in supplyGroup['goods']:
@@ -275,7 +277,7 @@ def supply_order(request):
 #      Искренне ваши, мясо-яйца-молоко!''' % (order.pk, order.deliveryDate)
 #      send_mail(u'Заказ #%d' % order.pk, message, u'order@xn--80aredccldbby6d7fc.xn--p1ai', (order.email,))
     resp = HttpResponseRedirect(reverse("url_main"))
-    resp.set_cookie('card', '[]', 3600)
+    resp.set_cookie('card', '', 3600)
     resp.set_cookie('lastCard', request.COOKIES['card'], 31536000)
     return resp
   

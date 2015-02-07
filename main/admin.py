@@ -32,10 +32,6 @@ class RecipeAdmin(admin.ModelAdmin):
 class CallOrderAdmin(admin.ModelAdmin):
   pass
 
-@admin.register(PartnerGoodToGood)
-class PartnerGoodToGoodAdmin(admin.ModelAdmin):
-  pass
-
 class PartnerGoodToGoodInline(admin.TabularInline):
   model = PartnerGoodToGood
 
@@ -85,6 +81,7 @@ class SupplyOrderItemAdmin(admin.TabularInline):
 class SupplyAdmin(CustomChangeActionsModelAdmin):
   form = SupplyForm
   readonly_fields = ('partner','status',)
+  list_display = ('partner', 'supplyDate', 'status')
   form_change_actions = 'getFormActions'
   inlines = [SupplyItemAdmin,] #  SupplyOrderInline]
 

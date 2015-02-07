@@ -57,6 +57,10 @@ P {
 	text-indent: 20px;
 }
 
+TEXTAREA {
+  width: 100%;
+}
+
 #container {
 	width: 90%;
 	margin: auto;
@@ -101,6 +105,9 @@ P {
   bottom: -217px;
   left: 20px;
   float: left;
+  background-image: url(/static/img/bucket.png);
+  background-repeat: no-repeat;
+  padding-left: 31px;
 }
 
 #card.visible {

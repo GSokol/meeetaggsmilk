@@ -330,7 +330,7 @@ class SupplyOrderItem(models.Model):
   def getPrice(self):
     return self.price() * self.value
 
-  price.verbose_name = u'цена'
+  price.short_description = u'цена'
 
   class Meta:
     verbose_name = u'пункт заказа'

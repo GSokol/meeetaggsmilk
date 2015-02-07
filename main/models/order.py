@@ -22,6 +22,8 @@ class Order(models.Model):
   timestamp = models.DateTimeField(u'дата/время', auto_now_add=True, editable=False)
   phone = PhoneField(u'телефон')
   email = models.EmailField()
+  name = models.CharField(u'Ф.И.О.', max_length=64, null=True)
+  address = models.TextField(u'адрес')
   status = models.CharField(u'статус', max_length=16, default=NEW, choices=STATUSES, editable=False)
   totalPrice = PriceField(u'итоговая стоимость', default=0, editable=False, max_digits=7)
   deliveryDate = models.DateField(u'дата доставки', null=True, blank=True)
