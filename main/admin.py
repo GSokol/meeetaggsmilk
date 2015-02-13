@@ -62,7 +62,7 @@ class SupplyItemAdmin(admin.TabularInline):
   model = SupplyItem
   verbose_name = u'товар'
   verbose_name_plural = u'товары'
-  readonly_fields = ('getOrder',)
+  readonly_fields = ('getOrders',)
   extra = 0
 
 #@admin.register(SupplyOrderItem)
