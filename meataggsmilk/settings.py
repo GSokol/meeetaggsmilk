@@ -104,7 +104,7 @@ USE_TZ = True
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'mail.nic.ru'
-EMAIL_HOST_USER = u'order@мясояйцамолоко.рф'
+EMAIL_HOST_USER = u'order@xn--80aredccldbby6d7fc.xn--p1ai'
 EMAIL_HOST_PASSWORD = 'Aleksandra68'
 EMAIL_PORT = 587
 

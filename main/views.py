@@ -3,13 +3,13 @@ from django.template import RequestContext
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response as django_render_to_response
 from django.core.urlresolvers import reverse
-from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 from tools.decorators import render_to_response
+from tools.mail import send
+from meataggsmilk.settings import MEDIA_ROOT
 
 from datetime import date, datetime, timedelta
-import json
-import urllib2
+import json, urllib2, os, base64
 
 from setts.models import TextModel, ImageModel, IntModel
 from main.models import RecipeCategory, Recipe, Good, GoodCategory, Order, SupplyItem, Supply, SupplyOrderItem, CallOrder
@@ -253,7 +253,6 @@ def supply_order(request):
   else:
     print supplyGroups
     for supplyGroup in supplyGroups:
-      print '!'
       order = Order(phone=phone, email=email, name=name, address=address, deliveryDate=supplyGroup['maxDate'])
       order.save()
 
@@ -271,13 +270,24 @@ def supply_order(request):
             value=good['value'],
             cut=False
         ).save()
-#      message = u'''Здравствуйте увожаемый покупатель!
-#      Ваш заказ №%d принят и ожидает обработки! Бсли не случится ничего экстроординарного,
-#      мы доставим его Вам %s.
+      logoName = ImageModel.objects.get(imgType=ImageModel.LOGO_BW)
+      logo = ''
+      with open(os.path.join(MEDIA_ROOT, logoName.image), 'rb') as image_file:
+        logo = base64.b64encode(image_file.read())
+      message = u'''Здравствуйте, %s!
+      Ваш заказ №%d принят и ожидает обработки!
         
-#      Огромное спасибо!
-#      Искренне ваши, мясо-яйца-молоко!''' % (order.pk, order.deliveryDate)
-#      send_mail(u'Заказ #%d' % order.pk, message, u'order@xn--80aredccldbby6d7fc.xn--p1ai', (order.email,))
+      Огромное спасибо!
+      Искренне ваши, мясо-яйца-молоко!''' % (name, order.pk,)
+      #send_mail(u'Заказ #%d' % order.pk, message, u'order@xn--80aredccldbby6d7fc.xn--p1ai', (order.email,))
+      send(u'Заказ №%d' % order.pk, message, 'order.html', {
+          'name' : name,
+          'logo' : logo,
+          'orderNumber' : order.pk,
+          'sumPrice' : supplyGroup['totalPrice']
+          'items' : supplyGroup['goods'],
+          'deliveryPrice' : deliveryPrice
+      }, order.email)
     resp = HttpResponseRedirect(reverse("url_main"))
     resp.set_cookie('card', '', 3600)
     resp.set_cookie('lastCard', request.COOKIES['card'], 31536000)

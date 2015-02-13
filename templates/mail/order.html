@@ -1,0 +1,78 @@
+{% load l10n %}
+{% localize on %}
+<!DOCTYPE html>
+<HTML>
+  <HEAD>
+    <STYLE>
+TABLE {
+  margin: auto;
+  width: 80%;
+}
+
+IMG {
+  height: 135px;
+  width: 160px;
+  margin: auto;
+}
+
+#content {
+  border: 3px solid black;
+}
+
+#content TD, #content TH {
+  border: 1px solid black;
+  text-align: center;
+}
+
+.column-right {
+  text-align: right;
+}
+
+.sum-text {
+  border-width: 1px 0px 1px 1px;
+  text-align: left;
+  padding: 3px;
+}
+
+.sum-value {
+  text-align: right !important;
+}
+    </STYLE>
+  </HEAD>
+  <BODY>
+    <DIV align="center">
+      <IMG src="data:image/png;base64,{{ logo }}" />
+      <H1>Мясо-яйца-молоко</H1>
+    </DIV>
+    <P>Здравствуйте, {{ name }}!</P>
+    <P>Вы сделали заказ №{{ orderNumber }}, на общую сумму {{ sumPrice }} рублей.</P>
+    <P>Ваш заказ принят и ожидает обработки!</P>
+    <TABLE id="content" cellspacing="0">
+      <THEAD>
+        <TR>
+          <TH>№</TH>
+          <TH>Название</TH>
+          <TH>Цена</TH>
+          <TH>Количество</TH>
+          <TH>Сумма</TH>
+        </TR>
+      </THEAD>
+      <TBODY>
+        {% for item in items %}
+          <TR>
+            <TD>{{ item.modelGood.pk|unlocalize }}</TD>
+            <TD>{{ item.modelGood.name|unlocalize }}</TD>
+            <TD>{{ item.price }}</TD>
+            <TD>{{ item.value }}</TD>
+            <TD>{{ item.total }}</TD>
+          </TR>
+        {% endfor %}
+        {% if deliveryPrice %}
+          <TR><TD colspan="4">Доставка</TD><TD>{{ deliveryPrice }}</TD></TR>
+        {% endif %}
+        <TR><TD class="sum-text" colspan="4">Итого:</TD><TD class="sum-value">{{ sumPrice|unlocalize }}</TD></TR>
+      </TBODY>
+    </TABLE>
+  </BODY>
+</HTML>
+{% endlocalize %}

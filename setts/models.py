@@ -44,7 +44,7 @@ class ImageModel(models.Model):
         return '<IMG src="%s%s" style="height:268px;width:400px;" />' % (MEDIA_URL, self.image)
     return '<IMG src="%s%s" />' % (MEDIA_URL, self.image)
   
-  get_image_display.shoort_description = 'Image'
+  get_image_display.shoort_description = u'картинка'
   get_image_display.allow_tags = True
 
   class Meta:

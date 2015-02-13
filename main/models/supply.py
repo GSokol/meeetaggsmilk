@@ -284,6 +284,18 @@ class SupplyItem(models.Model):
   def isPartnerGood(self):
     return (sum(map(lambda x: x.value + 1, self.partnerGood.partnergoodtogood_set.all())) == 2)
 
+  def getOrders(self):
+    if self.isPartnerGood():
+      return sum(map(lambda x: x.value, self.supply.supplyorderitem_set.filter(good_id=self.partnerGood.partnergood_set.all()[0])))
+    else:
+      ret = ''
+      for goodtogood in self.partnerGood.partnergoodtogood_set.all():
+        ret += goodtogood.good.name + ': ' \
+          + sum(map(lambda x: x.value, self.supply.supplyorderitem_set.filter(good_id=goodtogood.good.pk)[0])) + '<BR />'
+      return ret
+
+  getOrders.short_description = u'заказано'
+
   def getResides(self, good=None):
     if good is None:
       return [{'good': partnerGoodToGood.good, 'value': self.value * partnerGoodToGood.value - sum([orderItem.value for orderItem in self.supply.supplyorderitem_set.filter(good=partnerGoodToGood.good)])} for partnerGoodToGood in self.partnerGood.partnergoodtogood_set.all()]
