@@ -284,7 +284,7 @@ def supply_order(request):
           'name' : name,
           'logo' : logo,
           'orderNumber' : order.pk,
-          'sumPrice' : supplyGroup['totalPrice']
+          'sumPrice' : supplyGroup['totalPrice'],
           'items' : supplyGroup['goods'],
           'deliveryPrice' : deliveryPrice
       }, order.email)
