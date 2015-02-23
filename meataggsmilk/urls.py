@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
-from main import views
+from main import views, views_admin
 from meataggsmilk import settings
 
 urlpatterns = patterns('',
@@ -23,12 +23,13 @@ urlpatterns = patterns('',
   url(r'^resides/(?P<id>[0-9]+)/$', views.reside_good, name="url_reside_good"),
 
   # Supplies
+  url(r'^supply/change_order/(?P<idToMove>[0-9]+)/(?P<idAfter>[0-9]*)/$', views_admin.move, name="url_move"),
   url(r'^supply/(?P<id>[0-9]+)/$', views.supply_good_category, name="url_supplies"),
   url(r'^supply/good/(?P<id>[0-9]+)/(?P<categoryId>[0-9]+)/$', views.supply_good, name="url_supply_good"),
 
   # Orders
   url(r'^order/create/$', views.supply_order, name='url_order'),
-  url(r'^order/bill/(?P<id>[0-9]+)/$', views.print_bill, name="url_print_bill"),
+  url(r'^order/bill/(?P<id>[0-9]+)/$', views_admin.print_bill, name="url_print_bill"),
 
   # Admin
   url(r'^admin/', include(admin.site.urls)),

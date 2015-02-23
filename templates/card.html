@@ -25,6 +25,14 @@
             <TD class="supply-group-cell item-volume-cell">{{ good.value }}</TD>
             <TD class="supply-group-cell item-total-cell">{{ good.total }}</TD>
           </TR>
+          {% if good.cut %}
+            <TR>
+              <TD class="supply-group-cell item-name-cell">Порезвть</TD>
+              <TD class="supply-group-cell item-price-cell">100.00</TD>
+              <TD class="supply-group-cell item-volume-cell">1</TD>
+              <TD class="supply-group-cell item-total-cell">100.00</TD>
+            </TR>
+          {% endif %}
         {% endfor %}
         {% if supplyGroup.delivery %}
           <TR>

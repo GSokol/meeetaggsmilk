@@ -152,37 +152,6 @@ def supply_good(request, id, categoryId):
 def supply_aditional_order(request):
   pass
 
-def print_bill(request, id):
-  try:
-    deliveryPrice = IntModel.objects.filter(intType=IntModel.DELIVERY_PRICE)[0].value
-
-    order = Order.objects.get(pk=id)
-    logo = ImageModel.objects.get(imgType=ImageModel.LOGO_BW)
-    num = 1
-    items = []
-    deliveryDate = None
-    for item in order.supplyorderitem_set.all():
-      if item.isFromResides:
-        items.append((num, item.good.name, item.good.price, item.value, round(item.value * item.good.price, 2)))
-      else:
-          items.append((num, item.good.name, item.good.priceFut, item.value, '{:.2f}'.format(item.value * item.good.priceFut, True)))
-      num += 1
-      if deliveryDate is None or deliveryDate < item.supply.supplyDate:
-        deliveryDate = item.supply.supplyDate
-    
-    return django_render_to_response('admin/bill.html', {
-        'logo'          : logo.image,
-        'items'         : items,
-        'sumPrice'      : order.totalPrice,
-        'date'          : date.today().strftime('%d/%m/%Y'),
-        'orderDate'     : order.timestamp.strftime('%d/%m/%Y'),
-        'deliveryDate'  : deliveryDate.strftime('%d/%m/%Y') if deliveryDate > date.today() else date.today().strftime('%d/%m/%Y'),
-        'deliveryPrice' : deliveryPrice if not order.freeDelivery else False
-    }, RequestContext(request))
-  except Order.DoesNotExist:
-    raise Http404
-
-
 # Orders
 @csrf_exempt
 def supply_order(request):
@@ -215,6 +184,11 @@ def supply_order(request):
         if availableGood['good'].pk == int(orderItem['id']) and float(availableGood['value']) >= float(orderItem['value']):
           found = True
           orderItem['name'] = availableGood['good'].name
+          if availableGood['supplyItem'].supply.status != Supply.NEW:
+            orderItem['price'] = availableGood['good'].price
+          else:
+            orderItem['price'] = availableGood['good'].priceFut
+          orderItem['total'] = orderItem['value'] * orderItem['price']
           createNewGroup = True
           orderItem['supply'] = supply
           orderItem['modelGood'] = availableGood['good']
@@ -230,13 +204,15 @@ def supply_order(request):
               elif supplyGroup['maxDate'] < supplyDate:
                 supplyGroup['maxDate'] = supplyDate
               supplyGroup['totalPrice'] += orderItem['total']
+              if orderItem['cut']:
+                supplyGroup['totalPrice'] += 100;
               break
           if createNewGroup:
             supplyGroups.append({
               'goods': [orderItem],
               'minDate': supplyDate,
               'maxDate': supplyDate,
-              'totalPrice': orderItem['total'],
+              'totalPrice': orderItem['total'] + 100 * orderItem['cut'],
               'delivery': False
             })
           break
@@ -251,7 +227,6 @@ def supply_order(request):
 
     return render_to_response('card.html', { 'supplyGroups': supplyGroups, 'deliveryPrice': deliveryPrice }, RequestContext(request))
   else:
-    print supplyGroups
     for supplyGroup in supplyGroups:
       order = Order(phone=phone, email=email, name=name, address=address, deliveryDate=supplyGroup['maxDate'])
       order.save()
@@ -285,7 +260,8 @@ def supply_order(request):
           'logo' : logo,
           'orderNumber' : order.pk,
           'sumPrice' : supplyGroup['totalPrice'],
-          'items' : supplyGroup['goods'],
+          'items' : map(lambda x: { 'object': x[0], 'id': x[1]}, \
+            [(supplyGroup['goods'][index], index + 1) for index in xrange(supplyGroup['goods'])]),
           'deliveryPrice' : deliveryPrice
       }, order.email)
     resp = HttpResponseRedirect(reverse("url_main"))

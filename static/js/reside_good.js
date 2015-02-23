@@ -42,7 +42,6 @@
             goodId,
             parseFloat($('.js-price').text()),
             parseFloat($('SELECT OPTION:selected').val().replace(',','.')),
-            parseFloat($('.good-total-price-value').text()),
             $('SPAN INPUT.cut').prop('checked')
       ));
     });

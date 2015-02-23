@@ -14,7 +14,8 @@ class GoodAdmin(admin.ModelAdmin):
 
 @admin.register(GoodCategory)
 class GoodCategoryAdmin(admin.ModelAdmin):
-  pass
+  change_list_template = "admin/custom_change_list.html"
+  list_display = ('name', 'hidden', 'after',)
 
 @admin.register(RecipeCategory)
 class RecipeCategoryAdmin(admin.ModelAdmin):

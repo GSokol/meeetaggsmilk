@@ -291,7 +291,7 @@ class SupplyItem(models.Model):
       ret = ''
       for goodtogood in self.partnerGood.partnergoodtogood_set.all():
         ret += goodtogood.good.name + ': ' \
-          + sum(map(lambda x: x.value, self.supply.supplyorderitem_set.filter(good_id=goodtogood.good.pk)[0])) + '<BR />'
+          + sum(map(lambda x: x.value, self.supply.supplyorderitem_set.filter(good_id=goodtogood.good.pk))) + '<BR />'
       return ret
 
   getOrders.short_description = u'заказано'

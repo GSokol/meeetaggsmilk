@@ -17,7 +17,12 @@ def render_to_response(template, var_dict, context):
   if not var_dict.has_key('map'):
     var_dict['map'] = ImageModel.objects.filter(imgType=ImageModel.MAP)[0].image
   if not var_dict.has_key('good_categories'):
-    var_dict['good_categories'] = GoodCategory.objects.all()
+    var_dict['good_categories'] = [GoodCategory.objects.get(after_id__isnull=True)]
+    while True:
+      try:
+        var_dict['good_categories'].append(var_dict['good_categories'][-1].before)
+      except GoodCategory.DoesNotExist:
+        break
   if not var_dict.has_key('logo_img'):
     var_dict['logo_img'] = ImageModel.objects.filter(imgType=ImageModel.LOGO)[0].image
   if not var_dict.has_key('phones'):

@@ -55,13 +55,7 @@ function OrderData() {
     var ret = [];
     for (var i = 0; i < data.length; i++) {
       var obj = data[i];
-      ret.push({
-        id: obj.getId(),
-        price: obj.getPrice(),
-        value: obj.getValue(),
-        total: obj.getTotal(),
-        cut: obj.getCut(),
-      });
+      ret.push(obj.toObject());
     }
     return ret;
   };
@@ -90,10 +84,11 @@ function OrderException() {};
 function OrderConsistencyException() {};
 extend(OrderConsistencyException, OrderException);
 
-function OrderItem(id, price, value, total, cut) {
+function OrderItem(id, price, value, cut) {
   var _total = price * value;
-  if (_total > total || total < total)
-    throw new OrderConsistencyException();
+  var _shownTotal = _total;
+  if (cut)
+    _shownTotal += 100;
 
   var _id = id;
   var _price = price;
@@ -104,6 +99,15 @@ function OrderItem(id, price, value, total, cut) {
   this.getId = function() { return _id; };
   this.getPrice = function() { return _price; };
   this.getValue = function() { return _value; };
-  this.getTotal = function() { return _total; };
+  this.getTotal = function() { return _shownTotal; };
   this.getCut = function() { return _cut; };
+  this.toObject = function() {
+    return {
+      id: _id,
+      price: _price,
+      value: _value,
+      cut: _cat,
+      total: _total
+    };
+  };
 }

@@ -60,11 +60,11 @@ IMG {
       <TBODY>
         {% for item in items %}
           <TR>
-            <TD>{{ item.modelGood.pk|unlocalize }}</TD>
-            <TD>{{ item.modelGood.name|unlocalize }}</TD>
-            <TD>{{ item.price }}</TD>
-            <TD>{{ item.value }}</TD>
-            <TD>{{ item.total }}</TD>
+            <TD>{{ item.id }}</TD>
+            <TD>{{ item.object.modelGood.name|unlocalize }}</TD>
+            <TD>{{ item.object.price }}</TD>
+            <TD>{{ item.object.value }}</TD>
+            <TD>{{ item.object.total }}</TD>
           </TR>
         {% endfor %}
         {% if deliveryPrice %}
