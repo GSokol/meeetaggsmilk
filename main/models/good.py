@@ -61,27 +61,37 @@ class GoodCategory(models.Model):
         after = GoodCategory.objects.get(after_id__isnull=True)
         super(GoodCategory, self).save(*args, **kwargs)
 
-        before = oldGoodCategory.before
-        before.after = oldGoodCategory.after
-        before.save(skip_reordering=True)
+        try:
+          before = oldGoodCategory.before
+          before.after = oldGoodCategory.after
+          before.save(skip_reordering=True)
+        except GoodCategory.DoesNotExist:
+          pass
 
         after.after = self.pk
         after.save(skip_reordering=True)
 
       else:
         afterOld = oldGoodCategory.after
-        beforeOld = oldGoodCategory.before
-        beforeOld.after = None
-        beforeOld.save(skip_reordering=True)
+        try:
+          beforeOld = oldGoodCategory.before
+          beforeOld.after = None
+          beforeOld.save(skip_reordering=True)
+        except GoodCategory.DoesNotExist
+          beforeOld = None
 
-        beforeNew = GoodCategory.objects.get(after_id=self.after.pk)
-        beforeNew.after = self
-        beforeNew.save(skip_reordering=True)
+        try:
+          beforeNew = GoodCategory.objects.get(after_id=self.after.pk)
+          beforeNew.after = self
+          beforeNew.save(skip_reordering=True)
+        except GoodCategory.DoesNotExist:
+          pass
 
         super(GoodCategory, self).save(*args, **kwargs)
 
-        beforeOld.after = afterOld
-        beforeOld.save(skip_reordering=True)
+        if beforeOld is not None:
+          beforeOld.after = afterOld
+          beforeOld.save(skip_reordering=True)
 
   class Meta:
     verbose_name = u'категория товаров'
