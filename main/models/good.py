@@ -77,7 +77,7 @@ class GoodCategory(models.Model):
           beforeOld = oldGoodCategory.before
           beforeOld.after = None
           beforeOld.save(skip_reordering=True)
-        except GoodCategory.DoesNotExist
+        except GoodCategory.DoesNotExist:
           beforeOld = None
 
         try:
