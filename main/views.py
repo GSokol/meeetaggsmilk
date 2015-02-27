@@ -72,21 +72,17 @@ def resides(request):
   )
 
 def reside_good(request, id, from_supplies=False):
-  good = None
+  good = filter(lambda x: x[0].pk == id, SupplyItem.objects.getHotGoods())[0]
   recipes = []
   descriptions = []
   value_choices = []
 
-  try:
-    good = Good.objects.get(pk=id)
-    recipes = good.recipes.all()
-    descriptions = good.description.split('\n')
-    counter = 0;
-    while counter <= good.in_resides:
-      value_choices.append(counter)
-      counter += good.step
-  except Good.DoesNotExist:
-    pass
+  recipes = good.recipes.all()
+  descriptions = good.description.split('\n')
+  counter = 0;
+  while counter <= good.in_resides:
+    value_choices.append(counter)
+    counter += good.step
   return render_to_response("reside_good.html",
       {
         'good': good,

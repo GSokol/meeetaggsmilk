@@ -87,14 +87,17 @@ extend(OrderConsistencyException, OrderException);
 function OrderItem(id, price, value, cut) {
   var _total = price * value;
   var _shownTotal = _total;
+  var _cut;
+  if (cut == undefined)
+    _cut = false;
+  else:
+    _cut = cut;
   if (cut)
     _shownTotal += 100;
 
   var _id = id;
   var _price = price;
   var _value = value;
-  var _cut = cut;
-
 
   this.getId = function() { return _id; };
   this.getPrice = function() { return _price; };

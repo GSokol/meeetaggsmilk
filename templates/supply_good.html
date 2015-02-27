@@ -38,11 +38,12 @@
         <SPAN class="good-total-price-value">0</SPAN>
         руб.
       </SPAN>
-      <SPAN>
-        <LABEL for="cut">порезать?</LABEL>
-        <INPUT type="checkbox" name="cut" class="cut" />
-      </SPAN>
-
+      {% if good.cuttable %}
+        <SPAN>
+          <LABEL for="cut">порезать?</LABEL>
+          <INPUT type="checkbox" name="cut" class="cut" />
+        </SPAN>
+      {% endif %}
       <SPAN class="add-to-card inactive bordered-block">
         в корзину
       </SPAN>
