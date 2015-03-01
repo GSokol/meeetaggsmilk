@@ -78,8 +78,8 @@ def reside_good(request, id, from_supplies=False):
   descriptions = []
   value_choices = []
 
-  recipes = good.recipes.all()
-  descriptions = good.description.split('\n')
+  recipes = good[0].recipes.all()
+  descriptions = good[0].description.split('\n')
   counter = 0;
   while counter <= good.in_resides:
     value_choices.append(counter)
