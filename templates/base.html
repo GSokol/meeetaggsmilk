@@ -77,13 +77,13 @@
 				</UL>
 			</DIV>
 			<DIV id="right-menu" class="bordered-block long-block">
-        {#	{% if weekly_product %}
-        <A href="{% url "url_supply_good" weekly_product.pk weekly_product.category.pk %}">
-          <DIV align="center" class="right-menu-item clicable">
-            <IMG class="small-image" src="{{ MEDIA_URL }}{{ weekly_product.smallImage }}" /><BR/>
-            {{ weekly_product.name }}
-          </DIV>
-        </A>
+        {#	{% if weekly_product %} #}
+        {# <A href="{% url "url_supply_good" weekly_product.pk weekly_product.category.pk %}"> #}
+        {#  <DIV align="center" class="right-menu-item clicable"> #}
+          {#    <IMG class="small-image" src="{{ MEDIA_URL }}{{ weekly_product.smallImage }}" /><BR/> #}
+          {#  {{ weekly_product.name }} #}
+          {#</DIV> #}
+        {#</A> #}
         {% endif %} #}
 				<A href="{% url "url_recipe" random_recipe.pk %}">
 					<DIV align="center" class="right-menu-item clicable">
