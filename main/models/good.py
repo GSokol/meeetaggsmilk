@@ -114,7 +114,7 @@ class Good(models.Model):
   priceFut = PriceField(u'цена при заказе на поставку')
   price = PriceField(u'цена при заказе на остатки')
   measureName = models.CharField(u'единица измерения', max_length=16)
-  step = ValueField(u'шаг', max_digits=3)
+  step = ValueField(u'шаг', max_digits=4)
   maxRequest = ValueField(u'максимальный размер заявки')
   smallImage = models.ImageField(u'маленькая картинка', blank=True)
   bigImage = models.ImageField(u'большая картинка', blank=True)
