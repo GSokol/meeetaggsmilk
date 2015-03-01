@@ -81,7 +81,7 @@ def reside_good(request, id, from_supplies=False):
   recipes = good[0].recipes.all()
   descriptions = good[0].description.split('\n')
   counter = 0;
-  while counter <= good.in_resides:
+  while counter <= good[1]:
     value_choices.append(counter)
     counter += good.step
   return render_to_response("reside_good.html",
