@@ -90,7 +90,7 @@ function OrderItem(id, price, value, cut) {
   var _cut;
   if (cut == undefined)
     _cut = false;
-  else:
+  else
     _cut = cut;
   if (cut)
     _shownTotal += 100;

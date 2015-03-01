@@ -72,6 +72,7 @@ def resides(request):
   )
 
 def reside_good(request, id, from_supplies=False):
+  id = int(id)
   good = filter(lambda x: x[0].pk == id, SupplyItem.objects.getHotGoods())[0]
   recipes = []
   descriptions = []
