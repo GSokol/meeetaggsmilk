@@ -83,7 +83,7 @@ def reside_good(request, id, from_supplies=False):
   counter = 0;
   while counter <= good[1]:
     value_choices.append(counter)
-    counter += good.step
+    counter += good[0].step
   return render_to_response("reside_good.html",
       {
         'good': good,
