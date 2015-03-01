@@ -138,3 +138,4 @@ class Good(models.Model):
   class Meta:
     verbose_name = u'товар'
     verbose_name_plural = u'товары'
+    ordering = ['name']
