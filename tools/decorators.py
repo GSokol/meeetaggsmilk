@@ -7,7 +7,7 @@ from django import shortcuts
 def render_to_response(template, var_dict, context):
   if not var_dict.has_key('weekly_product'):
     try:
-      var_dict['weekly_product'] = Good.objects.get(weekly=True)
+      var_dict['weekly_product'] = Good.objects.find(weekly=True)
       if var_dict['weekly_product'].smallImage == '':
         var_dict['weekly_product'].smallImage = './default.png'
     except Good.DoesNotExist:

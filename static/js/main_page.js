@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$("#promo-banner").owlCarousel({
+	$("#owl-demo").owlCarousel({
 		navigation: false,
 		slideSpeed: 300,
 		paginationSpeed: 400,

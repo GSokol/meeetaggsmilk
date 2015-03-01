@@ -127,10 +127,10 @@ class Good(models.Model):
   def delete(self, using=''):
     pass
 
-  def save(self, *args, **kwargs):
-    if self.weekly:
-      Good.objects.all().update(weekly=False)
-    super(Good, self).save(*args, **kwargs)
+#  def save(self, *args, **kwargs):
+#    if self.weekly:
+#      Good.objects.all().update(weekly=False)
+#    super(Good, self).save(*args, **kwargs)
 
   def __unicode__(self):
     return '%s -- %d (%d) %s' % (self.name, self.priceFut, self.price, self.measureName)

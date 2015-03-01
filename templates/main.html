@@ -15,6 +15,18 @@
 {% block horizontal_menu_item_main %}{{ block.super }} selected-menu-item{% endblock %}
 
 {% block content %}
+  {% if weekly_product %}
+    <DIV id="owl-demo" class="owl-carousel owl-theme">
+      {% for good in weekly_product %}
+        <A href="{% url "url_supply_good" good.pk good.category.pk %}">
+          <DIV align="center" class="bordered-block clickable collection-item item">
+            <IMG class="small-img" src="{{ MEDIA_URL}}{{ good.smallImage }}" /><BR/>
+            {{ good.name }}
+          </DIV>
+        </A>
+      {% endfor %}
+    </DIV>
+  {% endif %}
   {% for text in main_text %}
     <P>{{ text }}</P>
   {% endfor %}
