@@ -40,9 +40,19 @@ class GoodCategory(models.Model):
       kwargs.pop('skip_reordering')
       return super(GoodCategory, self).save(*args, **kwargs)
     if self.pk is None:
-      currentGoodCategory = super(GoodCategory, self).save(*args,**kwargs)
-      GoodCategory.objects.filter(after_id = currentGoodCategory.after.pk) \
-        .exclude(pk=currentGoodCategory.pk).update(after_id= currentGoodCategory.pk)
+      if self.after is None:
+        currentGoodCategory = super(GoodCategory, self).save(*args,**kwargs)
+        GoodCategory.objects.filter(after_id__isnull = True) \
+          .exclude(pk=currentGoodCategory.pk).update(after_id=currentGoodCategory.pk)
+      else:
+        before = GoodCategory.objects.get(after_id=self.after.pk)
+        before.after = None
+        before.save(skip_reordering=True)
+
+        currentGoodCategory = super(GoodCategory, self).save(*args, **kwargs)
+
+        before.after = self
+        before.save(skip_reordering=True)
     else:
       oldGoodCategory = GoodCategory.objects.get(pk=self.pk)
       if oldGoodCategory.after == self.after or (oldGoodCategory.after is None and self.after is None):
