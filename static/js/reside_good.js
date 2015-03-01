@@ -8,6 +8,22 @@
 			spanSelector: '.widget-span'
 		});
 
+    var price = {
+      priceForGood: 0,
+      priceForCut: 0,
+      updatePrice: function () {
+        $('.good-total-price-value').text(this.priceForGood + this.priceForCut);
+      },
+      updatePriceForGood: function (price) {
+        this.priceForGood = price;
+        this.updatePrice();
+      },
+      updatePriceForCut: function (price) {
+        this.priceForCut = price;
+        this.updatePrice();
+      }
+    };
+
 		$('.good-total-price').width(
 				$('.good-total-price').width() +
 				$('.good-total-price').parent().width() - 40 -
@@ -23,7 +39,7 @@
         else
           $('.js-price.for-supply').addClass('active');
       }
-			$('.good-total-price-value').text(
+			price.updatePriceForGood(
 					Math.round(
 						selectedVolume * parseFloat($(".js-price.active").text()) * 100
 					) / 100.
@@ -34,6 +50,12 @@
 				$('.add-to-card').addClass('inactive');
 			}
 		});
+    $('SPAN INPUT.cut').click(function() {
+      if ($(this).prop('checked'))
+        price.updatePriceForCut(100);
+      else
+        price.updatePriceForCut(0);
+    });
 
     $('.add-to-card').unbind('click');
 		$('.add-to-card').click(function(event) {
