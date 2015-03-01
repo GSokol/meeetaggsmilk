@@ -7,9 +7,10 @@ from django import shortcuts
 def render_to_response(template, var_dict, context):
   if not var_dict.has_key('weekly_product'):
     try:
-      var_dict['weekly_product'] = Good.objects.find(weekly=True)
-      if var_dict['weekly_product'].smallImage == '':
-        var_dict['weekly_product'].smallImage = './default.png'
+      var_dict['weekly_product'] = Good.objects.filter(weekly=True)
+      for good in var_dict['weekly_product']:
+        if good.smallImage == '':
+            good['weekly_product'].smallImage = './default.png'
     except Good.DoesNotExist:
       pass
   if not var_dict.has_key('random_recipe'):
