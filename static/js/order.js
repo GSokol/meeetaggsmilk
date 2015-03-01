@@ -109,7 +109,7 @@ function OrderItem(id, price, value, cut) {
       id: _id,
       price: _price,
       value: _value,
-      cut: _cat,
+      cut: _cut,
       total: _total
     };
   };
