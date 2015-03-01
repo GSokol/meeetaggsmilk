@@ -15,13 +15,13 @@ class PriceField(models.DecimalField):
 
 class ValueField(models.DecimalField):
 
-  def __init__(self, verbose_name = None, name = None, max_digits=5, **kwargs):
+  def __init__(self, verbose_name = None, name = None, max_digits=6, **kwargs):
     if not verbose_name is None:
       kwargs['verbose_name'] = verbose_name
     if not name is None:
       kwargs['name'] = name
     kwargs['max_digits'] = max_digits
-    kwargs['decimal_places'] = 2
+    kwargs['decimal_places'] = 3
     kwargs['default'] = 0
     super(ValueField, self).__init__(**kwargs)
 
