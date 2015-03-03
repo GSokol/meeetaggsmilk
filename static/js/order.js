@@ -24,7 +24,7 @@ function OrderData() {
         bVal = b.getTotal();
       else
         bVal = b;
-      return a.getTotal() + b.getTotal(); });
+      return aVal + bVal; });
   };
 
   /* Handlers control */
