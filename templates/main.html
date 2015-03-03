@@ -20,7 +20,7 @@
       {% for good in weekly_product %}
         <A href="{% url "url_supply_good" good.pk good.category.pk %}">
           <DIV align="center" class="bordered-block clickable collection-item item">
-            <IMG class="small-img" src="{{ MEDIA_URL}}{{ good.smallImage }}" /><BR/>
+            <IMG class="small-image" src="{{ MEDIA_URL}}{{ good.smallImage }}" /><BR/>
             {{ good.name }}
           </DIV>
         </A>

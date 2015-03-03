@@ -70,7 +70,6 @@
               card[i].id,
               card[i].price,
               card[i].value,
-              card[i].total,
               card[i].cut
             ));
       }

@@ -92,7 +92,7 @@ function OrderItem(id, price, value, cut) {
     _cut = false;
   else
     _cut = cut;
-  if (cut)
+  if (_cut)
     _shownTotal += 100;
 
   var _id = id;
