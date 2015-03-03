@@ -185,7 +185,7 @@ def supply_order(request):
             orderItem['price'] = availableGood['good'].price
           else:
             orderItem['price'] = availableGood['good'].priceFut
-          orderItem['total'] = orderItem['value'] * orderItem['price']
+          orderItem['total'] = orderItem['value'] * float(orderItem['price'])
           createNewGroup = True
           orderItem['supply'] = supply
           orderItem['modelGood'] = availableGood['good']
