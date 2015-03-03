@@ -14,7 +14,17 @@ function OrderData() {
       return 0;
     else if (data.length == 1)
       return data[0].getTotal();
-    return data.reduce(function (a, b) { return a.getTotal() + b.getTotal(); });
+    return data.reduce(function (a, b) {
+      var aVal, bVal;
+      if (a instanceof OrderItem)
+        aVal = a.getTotal();
+      else
+        aVal = a;
+      if (b instanceof OrderItem)
+        bVal = b.getTotal();
+      else
+        bVal = b;
+      return a.getTotal() + b.getTotal(); });
   };
 
   /* Handlers control */
