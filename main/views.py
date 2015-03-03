@@ -258,7 +258,7 @@ def supply_order(request):
           'orderNumber' : order.pk,
           'sumPrice' : supplyGroup['totalPrice'],
           'items' : map(lambda x: { 'object': x[0], 'id': x[1]}, \
-            [(supplyGroup['goods'][index], index + 1) for index in xrange(supplyGroup['goods'])]),
+            [(supplyGroup['goods'][index], index + 1) for index in xrange(len(supplyGroup['goods']))]),
           'deliveryPrice' : deliveryPrice
       }, order.email)
     resp = HttpResponseRedirect(reverse("url_main"))
