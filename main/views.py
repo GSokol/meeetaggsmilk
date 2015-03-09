@@ -188,7 +188,7 @@ def supply_order(request):
             orderItem['price'] = availableGood['good'].priceFut
           orderItem['total'] = orderItem['value'] * float(orderItem['price'])
           createNewGroup = True
-#          orderItem['supply'] = supply
+          orderItem['supply'] = supply
           orderItem['modelGood'] = availableGood['good']
           orderItem['supplyItem'] = availableGood['supplyItem']
           orderItem['isPartnerGood'] = availableGood['isPartnerGood']
@@ -222,6 +222,7 @@ def supply_order(request):
       for good in supplyGroup['goods']:
         good['modelGood'] = None
         good['supplyItem'] = None
+        good['supply'] = None
       if supplyGroup['totalPrice'] < freeDeliveryMinPrice:
         supplyGroup['totalPrice'] += deliveryPrice
         supplyGroup['delivery'] = True
@@ -248,7 +249,7 @@ def supply_order(request):
         SupplyOrderItem(
             good=good['modelGood'],
             order=order,
-#            supply=good['supply'],
+            supply=good['supply'],
             value=good['value'],
             cut=False
         ).save()
