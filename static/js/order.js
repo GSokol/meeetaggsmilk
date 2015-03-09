@@ -59,7 +59,25 @@ function OrderData() {
       }
     if (push) data.push(item);
     onChange(new OrderEvent());
-  }
+  };
+
+  this.removeItem = function(id) {
+    for (var i = 0; i < data.length; i++)
+      if (data[i].getId() == id) {
+        data.splice(i, 1);
+        break;
+      }
+    onChange(new OrderEvent());
+  };
+
+  this.disableCut = function(id) {
+    for (var i = 0; i < data.length; i++)
+      if (data[i].getId() == id) {
+        data[i].disableCut();
+        break;
+      }
+    onChange(new OrderEvent());
+  };
 
   this.toObject = function () {
     var ret = [];
@@ -71,7 +89,10 @@ function OrderData() {
   };
 }
 
-function OrderEvent() {}
+function OrderEvent() {
+/*  OrderEvent.superclass.constructor.apply(this, Event); */
+}
+/* extend(OrderEvent, Event); */
 
 function SupplyCollection(data) {
   var that = this;
@@ -108,6 +129,14 @@ function OrderItem(id, price, value, cut) {
   var _id = id;
   var _price = price;
   var _value = value;
+
+  this.disableCut = function() {
+    if (_cut) {
+      _shownTotal -= 100;
+      _cut = false;
+    }
+  };
+
 
   this.getId = function() { return _id; };
   this.getPrice = function() { return _price; };

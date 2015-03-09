@@ -22,7 +22,7 @@
     <DIV id="call-order-form" class=" bordered-block">
       <LABEL for="call-order-phone-input">Телефон</LABEL>
       <INPUT type="text" id="call-order-phone-input" class="phone" /><BR /><BR/>
-      <DIV align="right"><SPAN id="call-order-submit" class="bordered-block clicable">Заказать звонок</SPAN></DIV>
+      <DIV align="right"><SPAN id="call-order-submit" class="bordered-block clickable">Заказать звонок</SPAN></DIV>
       <BR/>
     </DIV>
       
@@ -48,28 +48,28 @@
 				</DIV>
 				<DIV id="menu" class="bordered-block">
 					<UL class="horezontal-menu">
-						<LI class="{% block horizontal_menu_item_main %}horizontal-menu-item clicable{% endblock %}"
+						<LI class="{% block horizontal_menu_item_main %}horizontal-menu-item clickable{% endblock %}"
                 onclick="(function() { document.location.href = '{% url 'url_main' %}'; return false; })()">
 							Главная
 						</LI>
-						<LI class="{% block horizontal_menu_item_recipes %}horizontal-menu-item clicable{% endblock %}"
+						<LI class="{% block horizontal_menu_item_recipes %}horizontal-menu-item clickable{% endblock %}"
                 onclick="(function() { document.location.href = '{% url 'url_recipe_categories' %}'; return false; })()">
 							Рецепты
 						</LI>
-						<LI class="{% block horizontal_menu_item_resides %}horizontal-menu-item clicable{% endblock %}"
+						<LI class="{% block horizontal_menu_item_resides %}horizontal-menu-item clickable{% endblock %}"
                 onclick="(function() { document.location.href = '{% url 'url_resides' %}'; return false; })()">
 							Горячее предложение
 						</LI>
-						<LI class="{% block horizontal_menu_item_delivery %}horizontal-menu-item clicable{% endblock %}"
+						<LI class="{% block horizontal_menu_item_delivery %}horizontal-menu-item clickable{% endblock %}"
                 onclick="(function() {document.location.href = '{% url 'url_delivery' %}'; return false; })()">Доставка</LI>
-						<LI class="horizontal-menu-item horizontal-menu-item-callback clicable">Обратная связь</LI>
+						<LI class="horizontal-menu-item horizontal-menu-item-callback clickable">Обратная связь</LI>
 					</UL>
 				</DIV>
 			</DIV>
 			<DIV id="left-menu" class="bordered-block long-block">
 				<UL class="vertical-menu">
 					{% for good_category in good_categories %}
-						<LI class="vertical-menu-item clicable" id="vertical-menu-item-{{good_category.pk}}"
+						<LI class="vertical-menu-item clickable" id="vertical-menu-item-{{good_category.pk}}"
                 onclick="(function() { document.location.href='{% url 'url_supplies' good_category.pk %}'; return false; })()">
 							{{good_category.name}}
 						</LI>
@@ -79,20 +79,20 @@
 			<DIV id="right-menu" class="bordered-block long-block">
         {#	{% if weekly_product %} #}
         {# <A href="{% url "url_supply_good" weekly_product.pk weekly_product.category.pk %}"> #}
-        {#  <DIV align="center" class="right-menu-item clicable"> #}
+        {#  <DIV align="center" class="right-menu-item clickable"> #}
           {#    <IMG class="small-image" src="{{ MEDIA_URL }}{{ weekly_product.smallImage }}" /><BR/> #}
           {#  {{ weekly_product.name }} #}
           {#</DIV> #}
         {#</A> #}
         {# {% endif %} #}
 				<A href="{% url "url_recipe" random_recipe.pk %}">
-					<DIV align="center" class="right-menu-item clicable">
+					<DIV align="center" class="right-menu-item clickable">
 						<IMG class="small-image" src="{{ MEDIA_URL }}{{ random_recipe.smallImage }}" /><BR/>
 						{{random_recipe.name}}
 					</DIV>
 				</A>
         <A href="{% url "url_delivery" %}">
-          <DIV align="center" class="right-menu-item clicable">
+          <DIV align="center" class="right-menu-item clickable">
             <IMG class="small-image" src="{{ MEDIA_URL }}{{ map }}" /><BR/>
             Карта
           </DIV>

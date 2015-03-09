@@ -12,11 +12,11 @@
 	padding: 3px;
 }
 
-.clicable {
+.clickable {
 	cursor: pointer;
 }
 
-.clicable:hover {
+.clickable:hover {
 	background-image: url(/static/img/selected-bg.png);
 	background-repeat: repeat;
 }
@@ -257,4 +257,10 @@ TEXTAREA {
 .item-name-cell, .supply-group-header {
   text-align: left;
   padding-left: 3px;
+}
+
+.supply-group-cell.item-remove-cell {
+  width: 24px;
+  background-color: #59281A;
+  background-image: url(/static/img/cross.png);
 }

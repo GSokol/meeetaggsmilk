@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response as django_render_to_response
 from django.core.urlresolvers import reverse
+from django.core.serializers.json import DjangoJSONEncoder
 from django.views.decorators.csrf import csrf_exempt
 from tools.decorators import render_to_response
 from tools.mail import send
@@ -187,7 +188,7 @@ def supply_order(request):
             orderItem['price'] = availableGood['good'].priceFut
           orderItem['total'] = orderItem['value'] * float(orderItem['price'])
           createNewGroup = True
-          orderItem['supply'] = supply
+#          orderItem['supply'] = supply
           orderItem['modelGood'] = availableGood['good']
           orderItem['supplyItem'] = availableGood['supplyItem']
           orderItem['isPartnerGood'] = availableGood['isPartnerGood']
@@ -218,9 +219,18 @@ def supply_order(request):
 
   if phone is None or email is None:
     for supplyGroup in supplyGroups:
+      for good in supplyGroup['goods']:
+        good['modelGood'] = None
+        good['supplyItem'] = None
       if supplyGroup['totalPrice'] < freeDeliveryMinPrice:
         supplyGroup['totalPrice'] += deliveryPrice
         supplyGroup['delivery'] = True
+
+    if 'application/json' in map(lambda x: x.strip(), request.META.get('HTTP_ACCEPT').lower().split(',')):
+      return HttpResponse(
+          json.dumps({ 'supplyGroups' : supplyGroups, 'deliveryPrice' : deliveryPrice }, cls=DjangoJSONEncoder),
+          content_type='application/json'
+          )
 
     return render_to_response('card.html', { 'supplyGroups': supplyGroups, 'deliveryPrice': deliveryPrice }, RequestContext(request))
   else:
@@ -238,7 +248,7 @@ def supply_order(request):
         SupplyOrderItem(
             good=good['modelGood'],
             order=order,
-            supply=good['supply'],
+#            supply=good['supply'],
             value=good['value'],
             cut=False
         ).save()

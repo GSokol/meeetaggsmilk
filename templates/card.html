@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 
+{% load l10n %}
+
 {% block scripts %}
 {{ block.super }}
 <SCRIPT type="text/javascript" src="{{ STATIC_URL }}/js/card.js"></SCRIPT>
 {% endblock %}
 
+{% localize on %}
 {% block content %}
   <TABLE class="card-table">
     <THEAD>
       <TR>
-        <TH>Товар</TH>
+        <TH colspan="2">Товар</TH>
         <TH>Цена</TH>
         <TH>Количество</TH>
         <TH>Итого</TH>
@@ -17,17 +20,19 @@
     </THEAD>
     <TBODY>
       {% for supplyGroup in supplyGroups %}
-        <TR><TD class="supply-group-header" colspan="4">{{ supplyGroup.maxDate }}</TD></TR>
+        <TR><TD class="supply-group-header" colspan="5">{{ supplyGroup.maxDate }}</TD></TR>
         {% for good in supplyGroup.goods %}
-          <TR>
+          <TR class="supply-group-row item-row" id="order-item-{{ good.id }}" >
+            <TD class="supply-group-cell item-remove-cell clickable"></TD> 
             <TD class="supply-group-cell item-name-cell">{{ good.name }}</TD>
-            <TD class="supply-group-cell item-price-cell">{{ good.price }}</TD>
-            <TD class="supply-group-cell item-volume-cell">{{ good.value }}</TD>
-            <TD class="supply-group-cell item-total-cell">{{ good.total }}</TD>
+            <TD class="supply-group-cell item-price-cell">{{ good.price | unlocalize }}</TD>
+            <TD class="supply-group-cell item-volume-cell">{{ good.value | unlocalize }}</TD>
+            <TD class="supply-group-cell item-total-cell">{{ good.total | unlocalize }}</TD>
           </TR>
           {% if good.cut %}
-            <TR>
-              <TD class="supply-group-cell item-name-cell">Порезвть</TD>
+            <TR class="supply-group-row cut-row" id="order-item-{{ good.id }}-cut">
+              <TD class="supply-group-cell item-remove-cell clickable"></TD>
+              <TD class="supply-group-cell item-name-cell">Порезать</TD>
               <TD class="supply-group-cell item-price-cell">100.00</TD>
               <TD class="supply-group-cell item-volume-cell">1</TD>
               <TD class="supply-group-cell item-total-cell">100.00</TD>
@@ -35,13 +40,13 @@
           {% endif %}
         {% endfor %}
         {% if supplyGroup.delivery %}
-          <TR>
-            <TD class="supply-group-cell item-name-cell" colspan="3">Доставка</TD>
+          <TR class="supply-group-row delivery-row">
+            <TD class="supply-group-cell item-name-cell" colspan="4">Доставка</TD>
             <TD class="supply-group-cell item-price-cell">{{ deliveryPrice }}</TD>
           </TR>
         {% endif %}
         <TR class="total-row">
-          <TD class="supply-group-cell item-name-cell" colspan="3">Итого</TD>
+          <TD class="supply-group-cell item-name-cell" colspan="4">Итого</TD>
           <TD class="supply-group-cell item-price-cell">{{ supplyGroup.totalPrice }}</TD>
         </TR>
       {% endfor %}
@@ -83,3 +88,4 @@
     </TABLE>
   </FORM>
 {% endblock %}
+{% endlocalize %}
