@@ -141,7 +141,8 @@ TEXTAREA {
 
 .horizontal-menu-item {
 	display: inline-block;
-	width: 19%;
+/*	width: 19%; */
+  width: 24%;
 	text-align: center;
 	border-right: solid 2px #59281A;
 	margin: 0;
