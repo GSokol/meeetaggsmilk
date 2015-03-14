@@ -259,7 +259,7 @@ def supply_order(request):
       #  logo = base64.b64encode(image_file.read())
       messageVars = {
         'name': name,
-        'ogderNumber' : order.pk,
+        'orderNumber' : order.pk,
         'sumPrice' : supplyGroup['totalPrice']
       }
       message = TextModel.objects.get(name=TextModel.NEW_ORDER_MAIL).text.format(**messageVars)
