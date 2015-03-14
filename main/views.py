@@ -262,7 +262,7 @@ def supply_order(request):
         'ogderNumber' : order.pk,
         'sumPrice' : supplyGroup['totalPrice']
       }
-      message = TextModel.objects.get(name=TextModel.NEW_ORDER_MAIL).format(**messageVars)
+      message = TextModel.objects.get(name=TextModel.NEW_ORDER_MAIL).text.format(**messageVars)
       
       #message = u'''Здравствуйте, %s!
       #Ваш заказ №%d принят и ожидает обработки!
