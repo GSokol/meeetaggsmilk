@@ -257,21 +257,25 @@ def supply_order(request):
       #logo = ''
       #with open(os.path.join(MEDIA_ROOT, logoName.image), 'rb') as image_file:
       #  logo = base64.b64encode(image_file.read())
-      message = u'''Здравствуйте, %s!
-      Ваш заказ №%d принят и ожидает обработки!
-        
-      Огромное спасибо!
-      Искренне ваши, мясо-яйца-молоко!''' % (name, order.pk,)
+      messageVars = {
+        'name': name,
+        'ogderNumber' : order.pk,
+        'sumPrice' : supplyGroup['totalPrice']
+      }
+      message = TextModel.objects.get(name=TextModel.NEW_ORDER_MAIL).format(**messageVars)
+      
+      #message = u'''Здравствуйте, %s!
+      #Ваш заказ №%d принят и ожидает обработки!
+      #  
+      #Огромное спасибо!
+      #Искренне ваши, мясо-яйца-молоко!''' % (name, order.pk,)
       #send_mail(u'Заказ #%d' % order.pk, message, u'order@xn--80aredccldbby6d7fc.xn--p1ai', (order.email,))
-      send(u'Заказ №%d' % order.pk, message, 'order.html', {
-          'name' : name,
-          'logo' : '',
-          'orderNumber' : order.pk,
-          'sumPrice' : supplyGroup['totalPrice'],
-          'items' : map(lambda x: { 'object': x[0], 'id': x[1]}, \
+      messageVars['logo'] = ''
+      messageVars['items'] = map(lambda x: { 'object': x[0], 'id': x[1]}, \
             [(supplyGroup['goods'][index], index + 1) for index in xrange(len(supplyGroup['goods']))]),
-          'deliveryPrice' : deliveryPrice
-      }, order.email)
+      messageVars['deliveryPrice'] = deliveryPrice
+      messageVars['messageText'] = message.split('\n')
+      send(u'Заказ №%d' % order.pk, message, 'order.html', messageVars, order.email)
     resp = HttpResponseRedirect(reverse("url_main"))
     resp.set_cookie('card', '', 3600)
     resp.set_cookie('lastCard', request.COOKIES['card'], 31536000)

@@ -44,9 +44,12 @@ IMG {
       <IMG src="data:image/png;base64,{{ logo }}" />
       <H1>Мясо-яйца-молоко</H1>
     </DIV>
+    {% for paragraph in messageText %}
+      <P>{{ paragraph }}</P>
+      {% endfor %} {#
     <P>Здравствуйте, {{ name }}!</P>
     <P>Вы сделали заказ №{{ orderNumber }}, на общую сумму {{ sumPrice }} рублей.</P>
-    <P>Ваш заказ принят и ожидает обработки!</P>
+    <P>Ваш заказ принят и ожидает обработки!</P> #}
     <TABLE id="content" cellspacing="0">
       <THEAD>
         <TR>

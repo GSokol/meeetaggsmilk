@@ -6,9 +6,11 @@ from meataggsmilk.settings import MEDIA_URL
 class TextModel(models.Model):
   MAIN_PAGE = 'main_page'
   DELIVERY_PAGE = 'delivery_page'
+  NEW_ORDER_MAIL = 'new_order_mail'
   CHOICES = (
     (MAIN_PAGE, u'текст главной страницы'),
     (DELIVERY_PAGE, u'текст страницы доставки'),
+    (NEW_ORDER_MAIL, u'текст письма нового заказа'),
   )
   name = models.CharField(u'название', max_length=32, choices=CHOICES, unique=True)
   text = models.TextField(u'текст')
