@@ -10,7 +10,7 @@ def render_to_response(template, var_dict, context):
       var_dict['weekly_product'] = Good.objects.filter(weekly=True)
       for good in var_dict['weekly_product']:
         if good.smallImage == '':
-            good['weekly_product'].smallImage = './default.png'
+            good.smallImage = './default.png'
     except Good.DoesNotExist:
       pass
   if not var_dict.has_key('random_recipe'):
