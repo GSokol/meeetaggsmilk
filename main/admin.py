@@ -93,7 +93,7 @@ class SupplyAdmin(CustomChangeActionsModelAdmin):
 @admin.register(Order)
 class OrderAdmin(CustomChangeActionsModelAdmin):
   readonly_fields = ('timestamp', 'totalPrice')
-  list_display = ('phone', 'status', 'totalPrice')
+  list_display = ('name', 'phone', 'status', 'totalPrice')
   inlines = [SupplyOrderItemAdmin]
   form_change_actions = 'getFormActions'
 
@@ -103,3 +103,15 @@ class OrderAdmin(CustomChangeActionsModelAdmin):
         {'orders': [q.pk for q in queryset], 'referer': request.META['HTTP_REFERER']},
         RequestContext(request)
     )
+
+  def processed(self, request, queryset):
+    for order in queryset:
+      order.processed()
+      order.save()
+      message = u'''Здравствуйте, %s!
+      Ваш заказ №%d на сумму %.2f обработан!
+
+      Огромное спасибо!
+      Искренне ваши, мясо-яйца-молоко!''' % (order.name, order.pk, order.totalPrice)
+#      send(u'Заказ №%d' % order.pk(), message, 
+    return ''
