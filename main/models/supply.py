@@ -247,7 +247,7 @@ class Supply(models.Model):
 
   def wrightOff(self):
     if self.status == self.WEIGHTED \
-        and reduce(lambda a, b: a and b, map(lambda a: a.order.status == SupplyOrder.WHEIGHTED or a.order.status == SupplyOrder.DELIVERED, self.supplyorderitem_set.all())):
+        and reduce(lambda a, b: a and b, map(lambda a: a.order.status == SupplyOrder.WHEIGHTED or a.order.status == SupplyOrder.DELIVERED, self.supplyorderitem_set.all()), True):
       self.status = self.WRITTEN_OFF
 
   class Meta:
