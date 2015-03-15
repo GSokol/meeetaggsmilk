@@ -61,7 +61,7 @@ class Partner(models.Model):
     }]
 
   def __unicode__(self):
-    return '%s: %s' % (self.name, self.phone)
+    return u'%s: %s' % (self.name, self.phone)
 
   def toSupply(self, date_attr = None):
     if self.pk is None:
@@ -120,7 +120,7 @@ class PartnerGood(models.Model):
   maxMargin.short_description = u'максимальная маржа'
 
   def __unicode__(self):
-    return '%s: %s -- %d' % (self.partner.name, self.name, self.price)
+    return u'%s: %s -- %d' % (self.partner.name, self.name, self.price)
 
   class Meta:
     verbose_name = u'товар поставщика'
@@ -132,7 +132,7 @@ class PartnerGoodToGood(models.Model):
   value = ValueField(u'количество')
 
   def __unicode__(self):
-    return '%s = %s * %d' % (self.partnerGood.name, self.good.name, self.value)
+    return u'%s = %s * %d' % (self.partnerGood.name, self.good.name, self.value)
 
   class Meta:
     verbose_name = u'поставщик/прилавок'
@@ -193,7 +193,7 @@ class Supply(models.Model):
 
 
   def __unicode__(self):
-    return '%s %s' % (self.supplyDate, self.get_status_display())
+    return u'%s %s' % (self.supplyDate, self.get_status_display())
 
 #  def save(self, *args, **kwargs):
     # Only one futre supply could exist and nobody should add past supplies
@@ -212,6 +212,9 @@ class Supply(models.Model):
             'name': '__setorderd',
             'value': u'Заказать',
             'modelAction': 'order'
+          }, {
+            'name': '_continue',
+            'value': u'Сохранить и продолжить редактирование'
           }
       ]
     if self.status == self.ORDERED:
@@ -279,7 +282,7 @@ class SupplyItem(models.Model):
   objects = SupplyItemManager()
 
   def __unicode__(self):
-    return '%s -- %d' % (self.partnerGood, self.value)
+    return u'%s -- %d' % (self.partnerGood, self.value)
 
   def isPartnerGood(self):
     return (sum(map(lambda x: x.value + 1, self.partnerGood.partnergoodtogood_set.all())) == 2)
