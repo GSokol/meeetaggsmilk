@@ -272,7 +272,7 @@ def supply_order(request):
       #send_mail(u'Заказ #%d' % order.pk, message, u'order@xn--80aredccldbby6d7fc.xn--p1ai', (order.email,))
       messageVars['logo'] = ''
       messageVars['items'] = map(lambda x: { 'object': x[0], 'id': x[1]}, \
-            [(supplyGroup['goods'][index], index + 1) for index in xrange(len(supplyGroup['goods']))]),
+            [(supplyGroup['goods'][index], index + 1) for index in xrange(len(supplyGroup['goods']))])
       messageVars['deliveryPrice'] = deliveryPrice
       messageVars['messageText'] = message.split('\n')
       send(u'Заказ №%d' % order.pk, message, 'order.html', messageVars, order.email)
