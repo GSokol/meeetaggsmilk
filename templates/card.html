@@ -20,7 +20,7 @@
     </THEAD>
     <TBODY>
       {% for supplyGroup in supplyGroups %}
-        <TR><TD class="supply-group-header" colspan="5">{{ supplyGroup.maxDate }}</TD></TR>
+        <!-- <TR><TD class="supply-group-header" colspan="5">{{ supplyGroup.maxDate }}</TD></TR> -->
         {% for good in supplyGroup.goods %}
           <TR class="supply-group-row item-row" id="order-item-{{ good.id }}" >
             <TD class="supply-group-cell item-remove-cell clickable"></TD> 

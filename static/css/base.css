@@ -24,6 +24,7 @@
 .collection-item {
 	margin: 6px;
 	float: left;
+  width: 161px;
 }
 
 body {
