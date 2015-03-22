@@ -51,6 +51,11 @@ window.onload=function () { window.print(); window.close(); };
       <IMG src="{{ MEDIA_URL }}{{ logo }}" />
       <H1>Мясо-яйца-Молоко</H1>
     </DIV>
+    {% if text %}
+      {% for paragraph in text %}
+        <P>{{ paragraph }}</P>
+      {% endfor %}
+    {% endif %}
     <TABLE id="header">
       <TBODY>
         <!-- <TR> -->

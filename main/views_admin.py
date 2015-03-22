@@ -13,7 +13,11 @@ from datetime import date
 def print_bill(request, id):
   try:
     deliveryPrice = IntModel.objects.filter(intType=IntModel.DELIVERY_PRICE)[0].value
-
+    try:
+      text = TextModel.objects.get(name=TextModel.BILL_TEXT).text.split('\n')
+    except TextModel.DoesNotExist:
+      text = False
+    
     order = Order.objects.get(pk=id)
     logo = ImageModel.objects.get(imgType=ImageModel.LOGO_BW)
     num = 1
@@ -34,6 +38,7 @@ def print_bill(request, id):
     return render_to_response('admin/bill.html', {
         'logo'          : logo.image,
         'items'         : items,
+        'text'          : text,
         'sumPrice'      : order.totalPrice,
         'date'          : date.today().strftime('%d/%m/%Y'),
         'orderDate'     : order.timestamp.strftime('%d/%m/%Y'),
