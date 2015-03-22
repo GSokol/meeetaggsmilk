@@ -8,13 +8,12 @@ from meataggsmilk.settings import STATICFILES_DIRS, MEDIA_ROOT
 from setts.models import ImageModel
 
 def send(title, message, template, context, to):
-  filename = ImageModel.objects.get(imgType = ImageModel.LOGO).image.name
-  context['logo'] = basename(filename)
+  context['logo'] = basename(ImageModel.objects.get(imgType = ImageModel.LOGO).image.name)
   if isinstance(to, basestring):
     message = EmailMultiAlternatives(title, message, u'order@xn--80aredccldbby6d7fc.xn--p1ai', (to,))
     message.attach_alternative(render_to_string('mail/' + template, context), 'text/html')
     message.attach_file(join(STATICFILES_DIRS[0], 'img', 'background1.jpg'))
-    message.attach_file(filename)
+    message.attach_file(join(MEDIA_ROOT, context['logo']))
     message.send()
 #    send_mail(title, message, u'order@xn--80aredccldbby6d7fc.xn--p1ai',
 #        (to,), html_message=render_to_string('mail/' + template, context))
