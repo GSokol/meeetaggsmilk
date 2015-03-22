@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response
 from django.contrib.auth import get_permission_codename
 from django.db import transaction
 
-from setts.models import IntModel, ImageModel
+from setts.models import IntModel, ImageModel, TextModel
 from main.models import Order, GoodCategory
 
 from datetime import date
