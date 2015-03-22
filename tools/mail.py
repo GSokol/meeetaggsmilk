@@ -8,7 +8,7 @@ from meataggsmilk.settings import STATICFILES_DIRS, MEDIA_ROOT
 from setts.models import ImageModel
 
 def send(title, message, template, context, to):
-  context['logo'] = ImageModel.objects.get(imgType = LOGO)[0].image.filename
+  context['logo'] = ImageModel.objects.get(imgType = ImageModel.LOGO)[0].image.filename
   if isinstance(to, basestring):
     message = EmailMultiAlternatives(title, message, u'order@xn--80aredccldbby6d7fc.xn--p1ai', (to,))
     message.attach_alternative(render_to_string('mail/' + template, context))
