@@ -264,4 +264,6 @@ TEXTAREA {
   width: 24px;
   background-color: #59281A;
   background-image: url(/static/img/cross.png);
+  background-repeat: no-repeat;
+}
 }

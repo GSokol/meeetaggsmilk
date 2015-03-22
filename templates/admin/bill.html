@@ -10,8 +10,8 @@ TABLE {
 }
 
 IMG {
-  height: 135px;
-  width: 160px;
+  /* height: 135px; 
+   width: 160px; */
   margin: auto;
 }
 
@@ -53,10 +53,10 @@ window.onload=function () { window.print(); window.close(); };
     </DIV>
     <TABLE id="header">
       <TBODY>
-        <TR>
-          <TD class="column-left">Дата</TD>
-          <TD class="column-right">{{ date }}</TD>
-        </TR>
+        <!-- <TR> -->
+        <!--   <TD class="column-left">Дата</TD> -->
+        <!--   <TD class="column-right">{{ date }}</TD> -->
+        <!-- </TR> -->
         <TR>
           <TD class="column-left">Дата заказа</TD>
           <TD class="column-right">{{ orderDate }}</TD>
@@ -80,6 +80,7 @@ window.onload=function () { window.print(); window.close(); };
        <TBODY>
         {% for item in items %}
           <TR>{% for a in item %}<TD>{{ a|unlocalize }}</TD>{% endfor %}</TR>
+          {% if item 
         {% endfor %}
         {% if deliveryPrice %}
           <TR><TD colspan="4">Доставка</TD><TD>{{ deliveryPrice }}</TD></TR>

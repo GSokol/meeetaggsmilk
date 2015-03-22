@@ -115,3 +115,4 @@ class OrderAdmin(CustomChangeActionsModelAdmin):
       Искренне ваши, мясо-яйца-молоко!''' % (order.name, order.pk, order.totalPrice)
 #      send(u'Заказ №%d' % order.pk(), message, 
     return ''
+

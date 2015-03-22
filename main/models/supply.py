@@ -89,15 +89,15 @@ class Partner(models.Model):
     return supply
 
   class Meta:
-    verbose_name = u'партнер'
-    verbose_name_plural = u'партнеры'
+    verbose_name = u'поставщик'
+    verbose_name_plural = u'поставщики'
 
 class PartnerGood(models.Model):
   partner = models.ForeignKey(Partner, verbose_name=u'партнер')
   name = models.CharField(u'название', max_length=32)
   price = PriceField(u'цена')
   minOrder = ValueField(u'минимальный заказ')
-  step = ValueField(u'шаг', max_digits=3)
+  step = ValueField(u'шаг', max_digits=4)
   maxOrder = ValueField(u'максимальный заказ', null=True, blank=True)
   defaultOrder = ValueField(u'стандартный заказ', null=True, blank=True)
 
@@ -188,7 +188,7 @@ class Supply(models.Model):
         'isPartnerGood' : supplyItem.isPartnerGood(),
         'supplyItem' : supplyItem,
 
-      } for supplyItem in self.supplyitem_set.all() for partnerGoodToGood in supplyItem.partnerGood.partnergoodtogood_set.all()]
+      } for supplyItem in self.supplyitem_set.all() for partnerGoodToGood in supplyItem.partnerGood.partnergoodtogood_set.all() if not partnerGoodToGood.good.hidden]
     return allAvailableGoods
 
 

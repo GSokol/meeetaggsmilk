@@ -89,7 +89,7 @@ class CustomChangeActionsModelAdmin(CachedModelAdmin):
               if callable(adminAction):
                 ret = adminAction(request, [new_object])
                 if isinstance(ret, HttpResponse):
-									return ret
+                  return ret
             return self.response_change(request, new_object)
     return super(CustomChangeActionsModelAdmin, self).change_view(request, object_id, form_url, context)
 

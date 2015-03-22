@@ -25,10 +25,13 @@ def print_bill(request, id):
       else:
         items.append((num, item.good.name, item.good.priceFut, item.value, '{:.2f}'.format(item.value * item.good.priceFut, True)))
       num += 1
-      if deliveryDate is None or deliveryDate < item.supply.supplyDate:
-        deliveryDate = item.supply.supplyDate
+      if item.cut:
+        items.append((num, u'порезать', '300.00', 1, '300.00'))
+        num += 1
+    if deliveryDate is None or deliveryDate < item.supply.supplyDate:
+      deliveryDate = item.supply.supplyDate
 
-      return render_to_response('admin/bill.html', {
+    return render_to_response('admin/bill.html', {
         'logo'          : logo.image,
         'items'         : items,
         'sumPrice'      : order.totalPrice,
