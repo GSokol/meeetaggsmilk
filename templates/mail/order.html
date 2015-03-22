@@ -4,6 +4,10 @@
 <HTML>
   <HEAD>
     <STYLE>
+BODY {
+  background-image: url(cid:background1.jpg);
+}
+
 TABLE {
   margin: auto;
   width: 80%;
@@ -41,7 +45,7 @@ IMG {
   </HEAD>
   <BODY>
     <DIV align="center">
-      <IMG src="data:image/png;base64,{{ logo }}" />
+      <IMG src="cid:{{ logo }}" />
       <H1>Мясо-яйца-молоко</H1>
     </DIV>
     {% for paragraph in messageText %}
