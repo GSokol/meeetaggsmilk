@@ -235,10 +235,9 @@ def supply_order(request):
 
     return render_to_response('card.html', { 'supplyGroups': supplyGroups, 'deliveryPrice': deliveryPrice }, RequestContext(request))
   else:
+    order = Order(phone=phone, email=email, name=name, address=address)
+    order.save()
     for supplyGroup in supplyGroups:
-      order = Order(phone=phone, email=email, name=name, address=address, deliveryDate=supplyGroup['maxDate'])
-      order.save()
-
       for good in supplyGroup['goods']:
         if good['isPartnerGood']:
           resides = good['supplyItem'].getResides(good['modelGood'])
