@@ -12,7 +12,7 @@ def send(title, message, template, context, to):
   context['logo'] = basename(filename)
   if isinstance(to, basestring):
     message = EmailMultiAlternatives(title, message, u'order@xn--80aredccldbby6d7fc.xn--p1ai', (to,))
-    message.attach_alternative(render_to_string('mail/' + template, context))
+    message.attach_alternative(render_to_string('mail/' + template, context), 'text/html')
     message.attach_file(join(STATICFILES_DIRS[0], 'img', 'background1.png'))
     message.attach_file(filename)
     message.send()
