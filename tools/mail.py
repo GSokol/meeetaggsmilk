@@ -22,7 +22,7 @@ def send(title, message, template, context, to):
     context['logo'] = basename(ImageModel.objects.get(imgType = ImageModel.LOGO).image.name)
     msgRoot = MIMEMultipart('related')
     msgRoot['Subject'] = title
-    msgRoot['From'] = u'Магазин фермерских продуктов <order@мясояйцамооко.рф>'
+    msgRoot['From'] = u'Мясояйцамолоко <' + EMAIL_HOST_USER + '>'
     msgRoot['To'] = to
 
     msgAlternative = MIMEMultipart('alternative')
@@ -30,6 +30,12 @@ def send(title, message, template, context, to):
 
     msgAlternative.attach(MIMEText(message, _charset='utf-8'))
     msgAlternative.attach(MIMEText(render_to_string('mail/' + template, context), 'html', _charset='utf-8'))
+
+    fp = open(join(STATICFILES_DIRS[0], 'css', 'mail.css'), 'r')
+    msgText = MIMEText(fp.read(), _charset='utf-8')
+    fp.close()
+    msgText.add_header('Content-ID', '<mail.css>')
+    msgRoot.attach(msgText)
 
     fp = open(join(STATICFILES_DIRS[0], 'img', 'background1.jpg'), 'rb')
     msgImage = MIMEImage(fp.read())
@@ -44,7 +50,7 @@ def send(title, message, template, context, to):
     msgRoot.attach(msgImage)
 
     smtp = SMTP()
-    smtp.connect(EMAIL_HOST + ':' + EMAIL_PORT)
+    smtp.connect(EMAIL_HOST + ':' + str(EMAIL_PORT))
     smtp.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
     smtp.sendmail(EMAIL_HOST_USER, to, msgRoot.as_string())
     smtp.quit()
