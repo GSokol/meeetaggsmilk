@@ -22,7 +22,7 @@ def send(title, message, template, context, to):
     context['logo'] = basename(ImageModel.objects.get(imgType = ImageModel.LOGO).image.name)
     msgRoot = MIMEMultipart('related')
     msgRoot['Subject'] = title
-    msgRoot['From'] = u'Магазин фермерских продуктов <order@мясояйцамооко.рф>'
+    msgRoot['From'] = u'Мясояйцамолоко <' + EMAIL_HOST_USER + '>'
     msgRoot['To'] = to
 
     msgAlternative = MIMEMultipart('alternative')
@@ -44,7 +44,7 @@ def send(title, message, template, context, to):
     msgRoot.attach(msgImage)
 
     smtp = SMTP()
-    smtp.connect(EMAIL_HOST + ':' + EMAIL_PORT)
+    smtp.connect(EMAIL_HOST + ':' + str(EMAIL_PORT))
     smtp.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
     smtp.sendmail(EMAIL_HOST_USER, to, msgRoot.as_string())
     smtp.quit()
