@@ -46,10 +46,11 @@ IMG {
 -->
     </STYLE>
   </HEAD>
-  <BODY background="cid:background1.jpg">
-    <DIV align="center">
+  <BODY>
+    <DIV style="background-color:#A89575;color:#59281A;font-family:'Times New Roman';font-size:20px;font-weight:bold;">
+    <DIV align="center" >
       <IMG src="cid:{{ logo }}" />
-      <H1>Мясо-яйца-молоко</H1>
+      <H1 style="text-align:center;font-family:'Marck Script', cursive;font-size:30px;">Мясо-яйца-молоко</H1>
     </DIV>
     {% for paragraph in messageText %}
       <P>{{ paragraph }}</P>
@@ -80,6 +81,7 @@ IMG {
         <TR><TD class="sum-text" colspan="4">Итого:</TD><TD class="sum-value">{{ sumPrice|unlocalize }}</TD></TR>
       </TBODY>
     </TABLE>
+    </DIV>
   </BODY>
 </HTML>
 {% endlocalize %}
