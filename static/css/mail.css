@@ -1,0 +1,49 @@
+* {
+  color: #59281A;
+  font-family: 'Times New Roman';
+  font-size: 20px;
+  font-weight: bold;
+}
+
+BODY {
+  background-image: url(cid:background1.jpg);
+}
+
+H1 {
+  font-family: 'Marck Script', cursive;
+  font-size: 30px;
+}
+
+TABLE {
+  margin: auto;
+  width: 80%;
+}
+
+IMG {
+  height: 135px;
+  width: 160px;
+  margin: auto;
+}
+
+#content {
+  border: 3px solid black;
+}
+
+#content TD, #content TH {
+  border: 1px solid black;
+  text-align: center;
+}
+
+.column-right {
+  text-align: right;
+}
+
+.sum-text {
+  border-width: 1px 0px 1px 1px;
+  text-align: left;
+  padding: 3px;
+}
+
+.sum-value {
+  text-align: right !important;
+}
