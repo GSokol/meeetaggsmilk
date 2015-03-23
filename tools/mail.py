@@ -31,12 +31,6 @@ def send(title, message, template, context, to):
     msgAlternative.attach(MIMEText(message, _charset='utf-8'))
     msgAlternative.attach(MIMEText(render_to_string('mail/' + template, context), 'html', _charset='utf-8'))
 
-    fp = open(join(STATICFILES_DIRS[0], 'css', 'mail.css'), 'r')
-    msgText = MIMEText(fp.read(), _charset='utf-8')
-    fp.close()
-    msgText.add_header('Content-ID', '<mail.css>')
-    msgRoot.attach(msgText)
-
     fp = open(join(STATICFILES_DIRS[0], 'img', 'background1.jpg'), 'rb')
     msgImage = MIMEImage(fp.read())
     fp.close()
